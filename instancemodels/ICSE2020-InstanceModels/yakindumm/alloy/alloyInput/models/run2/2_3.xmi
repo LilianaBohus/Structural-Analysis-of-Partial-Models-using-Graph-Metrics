@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ASCII"?>
+<viatrasolver.domain.sgraph:Statechart xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:viatrasolver.domain.sgraph="viatrasolver.domain.sgraph">
+  <regions/>
+  <regions>
+    <vertices xsi:type="viatrasolver.domain.sgraph:FinalState" incomingTransitions="//@regions.1/@vertices.1/@outgoingTransitions.0"/>
+    <vertices xsi:type="viatrasolver.domain.sgraph:Entry">
+      <outgoingTransitions target="//@regions.1/@vertices.0"/>
+    </vertices>
+    <vertices xsi:type="viatrasolver.domain.sgraph:FinalState"/>
+    <vertices xsi:type="viatrasolver.domain.sgraph:FinalState"/>
+    <vertices xsi:type="viatrasolver.domain.sgraph:FinalState"/>
+    <vertices xsi:type="viatrasolver.domain.sgraph:FinalState"/>
+    <vertices xsi:type="viatrasolver.domain.sgraph:FinalState"/>
+    <vertices xsi:type="viatrasolver.domain.sgraph:FinalState"/>
+  </regions>
+  <regions/>
+  <regions/>
+  <regions/>
+  <regions/>
+  <regions/>
+  <regions/>
+  <regions/>
+  <regions/>
+  <regions/>
+  <regions/>
+  <regions/>
+  <regions/>
+  <regions/>
+  <regions/>
+  <regions/>
+  <regions/>
+  <regions/>
+  <regions/>
+</viatrasolver.domain.sgraph:Statechart>

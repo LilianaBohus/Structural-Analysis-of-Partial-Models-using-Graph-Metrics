@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:viatrasolver.domain.sgraph="viatrasolver.domain.sgraph">
+  <viatrasolver.domain.sgraph:Transition target="/2/@regions.0/@vertices.5"/>
+  <viatrasolver.domain.sgraph:Choice>
+    <outgoingTransitions target="/2/@regions.0/@vertices.5"/>
+    <outgoingTransitions target="/2/@regions.0/@vertices.5"/>
+    <outgoingTransitions target="/2/@regions.0/@vertices.6"/>
+    <outgoingTransitions target="/2/@regions.0/@vertices.5"/>
+    <outgoingTransitions target="/2/@regions.0/@vertices.7"/>
+    <outgoingTransitions target="/2/@regions.0/@vertices.6"/>
+    <outgoingTransitions target="/2/@regions.0/@vertices.6"/>
+    <outgoingTransitions target="/2/@regions.0/@vertices.7"/>
+    <outgoingTransitions target="/2/@regions.0/@vertices.0"/>
+  </viatrasolver.domain.sgraph:Choice>
+  <viatrasolver.domain.sgraph:Statechart>
+    <regions>
+      <vertices xsi:type="viatrasolver.domain.sgraph:Choice" incomingTransitions="/1/@outgoingTransitions.8">
+        <outgoingTransitions target="/2/@regions.0/@vertices.6"/>
+        <outgoingTransitions target="/2/@regions.0/@vertices.7"/>
+        <outgoingTransitions target="/2/@regions.0/@vertices.6"/>
+        <outgoingTransitions target="/2/@regions.0/@vertices.5"/>
+        <outgoingTransitions target="/2/@regions.0/@vertices.5"/>
+        <outgoingTransitions target="/2/@regions.0/@vertices.7"/>
+        <outgoingTransitions target="/2/@regions.0/@vertices.6"/>
+        <outgoingTransitions target="/2/@regions.0/@vertices.3"/>
+      </vertices>
+      <vertices xsi:type="viatrasolver.domain.sgraph:State">
+        <outgoingTransitions target="/2/@regions.0/@vertices.7"/>
+        <outgoingTransitions target="/2/@regions.0/@vertices.5"/>
+        <outgoingTransitions target="/2/@regions.0/@vertices.4"/>
+        <outgoingTransitions target="/2/@regions.0/@vertices.6"/>
+        <outgoingTransitions target="/2/@regions.0/@vertices.7"/>
+        <outgoingTransitions target="/2/@regions.0/@vertices.6"/>
+        <outgoingTransitions target="/2/@regions.0/@vertices.7"/>
+        <outgoingTransitions target="/2/@regions.0/@vertices.5"/>
+      </vertices>
+      <vertices xsi:type="viatrasolver.domain.sgraph:Synchronization"/>
+      <vertices xsi:type="viatrasolver.domain.sgraph:Entry" incomingTransitions="/2/@regions.0/@vertices.0/@outgoingTransitions.7"/>
+      <vertices xsi:type="viatrasolver.domain.sgraph:Exit" incomingTransitions="/2/@regions.0/@vertices.1/@outgoingTransitions.2"/>
+      <vertices xsi:type="viatrasolver.domain.sgraph:Exit" incomingTransitions="/1/@outgoingTransitions.1 /2/@regions.0/@vertices.0/@outgoingTransitions.3 /0 /1/@outgoingTransitions.0 /2/@regions.0/@vertices.1/@outgoingTransitions.7 /2/@regions.0/@vertices.1/@outgoingTransitions.1 /1/@outgoingTransitions.3 /2/@regions.0/@vertices.0/@outgoingTransitions.4"/>
+      <vertices xsi:type="viatrasolver.domain.sgraph:Exit" incomingTransitions="/2/@regions.0/@vertices.0/@outgoingTransitions.0 /1/@outgoingTransitions.5 /2/@regions.0/@vertices.1/@outgoingTransitions.5 /2/@regions.0/@vertices.0/@outgoingTransitions.6 /1/@outgoingTransitions.2 /2/@regions.0/@vertices.0/@outgoingTransitions.2 /2/@regions.0/@vertices.1/@outgoingTransitions.3 /1/@outgoingTransitions.6"/>
+      <vertices xsi:type="viatrasolver.domain.sgraph:State" incomingTransitions="/2/@regions.0/@vertices.1/@outgoingTransitions.4 /1/@outgoingTransitions.7 /2/@regions.0/@vertices.0/@outgoingTransitions.5 /2/@regions.0/@vertices.1/@outgoingTransitions.0 /2/@regions.0/@vertices.0/@outgoingTransitions.1 /1/@outgoingTransitions.4 /2/@regions.0/@vertices.1/@outgoingTransitions.6"/>
+    </regions>
+    <regions/>
+    <regions/>
+    <regions/>
+    <regions/>
+    <regions/>
+    <regions/>
+    <regions/>
+    <regions/>
+  </viatrasolver.domain.sgraph:Statechart>
+</xmi:XMI>

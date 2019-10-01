@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ASCII"?>
+<viatrasolver.domain.sgraph:Statechart xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:viatrasolver.domain.sgraph="viatrasolver.domain.sgraph">
+  <regions>
+    <vertices xsi:type="viatrasolver.domain.sgraph:Entry" incomingTransitions="//@regions.0/@vertices.0/@outgoingTransitions.0 //@regions.0/@vertices.0/@outgoingTransitions.1 //@regions.0/@vertices.0/@outgoingTransitions.2 //@regions.0/@vertices.0/@outgoingTransitions.3 //@regions.0/@vertices.0/@outgoingTransitions.4 //@regions.0/@vertices.0/@outgoingTransitions.5 //@regions.0/@vertices.0/@outgoingTransitions.6 //@regions.0/@vertices.0/@outgoingTransitions.7 //@regions.0/@vertices.0/@outgoingTransitions.8 //@regions.0/@vertices.0/@outgoingTransitions.9 //@regions.0/@vertices.0/@outgoingTransitions.10 //@regions.0/@vertices.0/@outgoingTransitions.11 //@regions.0/@vertices.0/@outgoingTransitions.12 //@regions.0/@vertices.0/@outgoingTransitions.13 //@regions.0/@vertices.0/@outgoingTransitions.14 //@regions.0/@vertices.0/@outgoingTransitions.15 //@regions.0/@vertices.0/@outgoingTransitions.16 //@regions.0/@vertices.0/@outgoingTransitions.17 //@regions.0/@vertices.0/@outgoingTransitions.18 //@regions.0/@vertices.0/@outgoingTransitions.19 //@regions.0/@vertices.0/@outgoingTransitions.20 //@regions.0/@vertices.0/@outgoingTransitions.21 //@regions.0/@vertices.0/@outgoingTransitions.22 //@regions.0/@vertices.0/@outgoingTransitions.23 //@regions.0/@vertices.0/@outgoingTransitions.24 //@regions.0/@vertices.0/@outgoingTransitions.25 //@regions.0/@vertices.0/@outgoingTransitions.26">
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0"/>
+    </vertices>
+  </regions>
+</viatrasolver.domain.sgraph:Statechart>

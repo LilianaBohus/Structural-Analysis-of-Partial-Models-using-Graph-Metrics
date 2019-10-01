@@ -1,0 +1,2 @@
+choiceHasNoOutgoing,choiceHasNoIncoming,incomingToEntry,noStateInRegion,outgoingFromFinal,outgoingFromExit,noEntryInRegion,multipleEntryInRegion,noOutgoingTransitionFromEntry,multipleTransitionFromEntry
+0.04,0.04,0.0,0.12,0.1,0.02,0.94,0.0,0.04,0.0

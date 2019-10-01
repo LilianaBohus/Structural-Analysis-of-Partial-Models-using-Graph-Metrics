@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:viatrasolver.domain.sgraph="viatrasolver.domain.sgraph">
+  <viatrasolver.domain.sgraph:Choice incomingTransitions="/1/@outgoingTransitions.7 /2/@outgoingTransitions.1 /3/@outgoingTransitions.6">
+    <outgoingTransitions target="/1"/>
+    <outgoingTransitions target="/3"/>
+    <outgoingTransitions target="/3"/>
+    <outgoingTransitions target="/1"/>
+    <outgoingTransitions target="/1"/>
+    <outgoingTransitions target="/3"/>
+    <outgoingTransitions target="/2"/>
+  </viatrasolver.domain.sgraph:Choice>
+  <viatrasolver.domain.sgraph:Exit incomingTransitions="/0/@outgoingTransitions.0 /0/@outgoingTransitions.3 /0/@outgoingTransitions.4 /1/@outgoingTransitions.0 /1/@outgoingTransitions.2 /2/@outgoingTransitions.0 /2/@outgoingTransitions.2 /3/@outgoingTransitions.0 /3/@outgoingTransitions.3 /3/@outgoingTransitions.5">
+    <outgoingTransitions target="/1"/>
+    <outgoingTransitions target="/2"/>
+    <outgoingTransitions target="/1"/>
+    <outgoingTransitions target="/3"/>
+    <outgoingTransitions target="/2"/>
+    <outgoingTransitions target="/2"/>
+    <outgoingTransitions target="/2"/>
+    <outgoingTransitions target="/0"/>
+  </viatrasolver.domain.sgraph:Exit>
+  <viatrasolver.domain.sgraph:Exit incomingTransitions="/1/@outgoingTransitions.4 /1/@outgoingTransitions.1 /2/@outgoingTransitions.4 /1/@outgoingTransitions.6 /0/@outgoingTransitions.6 /1/@outgoingTransitions.5 /3/@outgoingTransitions.4 /3/@outgoingTransitions.1">
+    <outgoingTransitions target="/1"/>
+    <outgoingTransitions target="/0"/>
+    <outgoingTransitions target="/1"/>
+    <outgoingTransitions target="/3"/>
+    <outgoingTransitions target="/2"/>
+    <outgoingTransitions target="/3"/>
+    <outgoingTransitions target="/3"/>
+  </viatrasolver.domain.sgraph:Exit>
+  <viatrasolver.domain.sgraph:Synchronization incomingTransitions="/0/@outgoingTransitions.1 /0/@outgoingTransitions.2 /1/@outgoingTransitions.3 /2/@outgoingTransitions.6 /2/@outgoingTransitions.3 /0/@outgoingTransitions.5 /2/@outgoingTransitions.5 /3/@outgoingTransitions.2">
+    <outgoingTransitions target="/1"/>
+    <outgoingTransitions target="/2"/>
+    <outgoingTransitions target="/3"/>
+    <outgoingTransitions target="/1"/>
+    <outgoingTransitions target="/2"/>
+    <outgoingTransitions target="/1"/>
+    <outgoingTransitions target="/0"/>
+  </viatrasolver.domain.sgraph:Synchronization>
+</xmi:XMI>

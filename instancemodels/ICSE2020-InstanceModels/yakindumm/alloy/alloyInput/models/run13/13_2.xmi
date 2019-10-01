@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ASCII"?>
+<viatrasolver.domain.sgraph:Statechart xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:viatrasolver.domain.sgraph="viatrasolver.domain.sgraph">
+  <regions>
+    <vertices xsi:type="viatrasolver.domain.sgraph:State">
+      <outgoingTransitions target="//@regions.0/@vertices.0/@regions.0/@vertices.1"/>
+      <regions>
+        <vertices xsi:type="viatrasolver.domain.sgraph:FinalState" incomingTransitions="//@regions.0/@vertices.1/@outgoingTransitions.1"/>
+        <vertices xsi:type="viatrasolver.domain.sgraph:State" incomingTransitions="//@regions.0/@vertices.0/@outgoingTransitions.0">
+          <regions>
+            <vertices xsi:type="viatrasolver.domain.sgraph:State"/>
+          </regions>
+          <regions>
+            <vertices xsi:type="viatrasolver.domain.sgraph:State">
+              <outgoingTransitions target="//@regions.0/@vertices.1"/>
+              <outgoingTransitions target="//@regions.0/@vertices.0/@regions.2/@vertices.2"/>
+              <outgoingTransitions target="//@regions.0/@vertices.0/@regions.1/@vertices.1/@regions.0/@vertices.0"/>
+            </vertices>
+          </regions>
+        </vertices>
+        <vertices xsi:type="viatrasolver.domain.sgraph:FinalState"/>
+      </regions>
+      <regions>
+        <vertices xsi:type="viatrasolver.domain.sgraph:FinalState"/>
+        <vertices xsi:type="viatrasolver.domain.sgraph:State">
+          <regions>
+            <vertices xsi:type="viatrasolver.domain.sgraph:FinalState" incomingTransitions="//@regions.0/@vertices.0/@regions.0/@vertices.1/@regions.1/@vertices.0/@outgoingTransitions.2">
+              <outgoingTransitions target="//@regions.0/@vertices.1"/>
+            </vertices>
+          </regions>
+        </vertices>
+        <vertices xsi:type="viatrasolver.domain.sgraph:State"/>
+      </regions>
+      <regions>
+        <vertices xsi:type="viatrasolver.domain.sgraph:FinalState"/>
+        <vertices xsi:type="viatrasolver.domain.sgraph:Entry">
+          <outgoingTransitions target="//@regions.0/@vertices.1"/>
+        </vertices>
+        <vertices xsi:type="viatrasolver.domain.sgraph:State" incomingTransitions="//@regions.0/@vertices.0/@regions.0/@vertices.1/@regions.1/@vertices.0/@outgoingTransitions.1"/>
+      </regions>
+    </vertices>
+    <vertices xsi:type="viatrasolver.domain.sgraph:Choice" incomingTransitions="//@regions.0/@vertices.0/@regions.0/@vertices.1/@regions.1/@vertices.0/@outgoingTransitions.0 //@regions.0/@vertices.1/@outgoingTransitions.0 //@regions.0/@vertices.0/@regions.1/@vertices.1/@regions.0/@vertices.0/@outgoingTransitions.0 //@regions.0/@vertices.0/@regions.2/@vertices.1/@outgoingTransitions.0">
+      <outgoingTransitions target="//@regions.0/@vertices.1"/>
+      <outgoingTransitions target="//@regions.0/@vertices.0/@regions.0/@vertices.0"/>
+    </vertices>
+  </regions>
+</viatrasolver.domain.sgraph:Statechart>

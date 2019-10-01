@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:viatrasolver.domain.sgraph="viatrasolver.domain.sgraph">
+  <viatrasolver.domain.sgraph:Transition target="/3/@vertices.2"/>
+  <viatrasolver.domain.sgraph:Choice incomingTransitions="/3/@vertices.1/@outgoingTransitions.3">
+    <outgoingTransitions target="/3/@vertices.3"/>
+    <outgoingTransitions target="/3/@vertices.5"/>
+    <outgoingTransitions target="/3/@vertices.7"/>
+    <outgoingTransitions target="/3/@vertices.6"/>
+    <outgoingTransitions target="/3/@vertices.5"/>
+    <outgoingTransitions target="/3/@vertices.6"/>
+    <outgoingTransitions target="/2"/>
+    <outgoingTransitions target="/3/@vertices.5"/>
+  </viatrasolver.domain.sgraph:Choice>
+  <viatrasolver.domain.sgraph:Synchronization incomingTransitions="/1/@outgoingTransitions.6">
+    <outgoingTransitions target="/3/@vertices.3"/>
+    <outgoingTransitions target="/3/@vertices.1"/>
+    <outgoingTransitions target="/3/@vertices.6"/>
+    <outgoingTransitions target="/3/@vertices.5"/>
+    <outgoingTransitions target="/3/@vertices.3"/>
+    <outgoingTransitions target="/3/@vertices.3"/>
+    <outgoingTransitions target="/3/@vertices.6"/>
+    <outgoingTransitions target="/3/@vertices.7"/>
+  </viatrasolver.domain.sgraph:Synchronization>
+  <viatrasolver.domain.sgraph:Region>
+    <vertices xsi:type="viatrasolver.domain.sgraph:FinalState">
+      <outgoingTransitions target="/3/@vertices.4"/>
+      <outgoingTransitions target="/3/@vertices.7"/>
+      <outgoingTransitions target="/3/@vertices.6"/>
+      <outgoingTransitions target="/3/@vertices.7"/>
+      <outgoingTransitions target="/3/@vertices.4"/>
+      <outgoingTransitions target="/3/@vertices.6"/>
+      <outgoingTransitions target="/3/@vertices.7"/>
+    </vertices>
+    <vertices xsi:type="viatrasolver.domain.sgraph:Choice" incomingTransitions="/2/@outgoingTransitions.1">
+      <outgoingTransitions target="/3/@vertices.6"/>
+      <outgoingTransitions target="/3/@vertices.7"/>
+      <outgoingTransitions target="/3/@vertices.6"/>
+      <outgoingTransitions target="/1"/>
+      <outgoingTransitions target="/3/@vertices.5"/>
+      <outgoingTransitions target="/3/@vertices.2"/>
+      <outgoingTransitions target="/3/@vertices.2"/>
+    </vertices>
+    <vertices xsi:type="viatrasolver.domain.sgraph:Exit" incomingTransitions="/3/@vertices.1/@outgoingTransitions.6 /0 /3/@vertices.1/@outgoingTransitions.5"/>
+    <vertices xsi:type="viatrasolver.domain.sgraph:Choice" incomingTransitions="/2/@outgoingTransitions.0 /1/@outgoingTransitions.0 /2/@outgoingTransitions.5 /2/@outgoingTransitions.4"/>
+    <vertices xsi:type="viatrasolver.domain.sgraph:FinalState" incomingTransitions="/3/@vertices.0/@outgoingTransitions.0 /3/@vertices.0/@outgoingTransitions.4"/>
+    <vertices xsi:type="viatrasolver.domain.sgraph:Choice" incomingTransitions="/1/@outgoingTransitions.7 /3/@vertices.1/@outgoingTransitions.4 /1/@outgoingTransitions.1 /2/@outgoingTransitions.3 /1/@outgoingTransitions.4"/>
+    <vertices xsi:type="viatrasolver.domain.sgraph:FinalState" incomingTransitions="/3/@vertices.0/@outgoingTransitions.5 /3/@vertices.1/@outgoingTransitions.0 /1/@outgoingTransitions.3 /3/@vertices.1/@outgoingTransitions.2 /2/@outgoingTransitions.6 /3/@vertices.0/@outgoingTransitions.2 /1/@outgoingTransitions.5 /2/@outgoingTransitions.2"/>
+    <vertices xsi:type="viatrasolver.domain.sgraph:FinalState" incomingTransitions="/3/@vertices.0/@outgoingTransitions.1 /2/@outgoingTransitions.7 /3/@vertices.1/@outgoingTransitions.1 /1/@outgoingTransitions.2 /3/@vertices.0/@outgoingTransitions.3 /3/@vertices.0/@outgoingTransitions.6"/>
+  </viatrasolver.domain.sgraph:Region>
+</xmi:XMI>
