@@ -5,17 +5,19 @@ import hu.bme.mit.inf.dslreasoner.ecore2logic.Ecore2Logic
 import hu.bme.mit.inf.dslreasoner.ecore2logic.Ecore2LogicConfiguration
 import hu.bme.mit.inf.dslreasoner.ecore2logic.Ecore2Logic_Trace
 import hu.bme.mit.inf.dslreasoner.ecore2logic.EcoreMetamodelDescriptor
+import hu.bme.mit.inf.dslreasoner.ecore2logic.ecore2logicannotations.InverseRelationAssertion
 import hu.bme.mit.inf.dslreasoner.logic.model.builder.DocumentationLevel
 import hu.bme.mit.inf.dslreasoner.logic.model.builder.TracedOutput
 import hu.bme.mit.inf.dslreasoner.logic.model.logicproblem.LogicProblem
+import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstractionfilter.AbstractRelationOperationFilter
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethod
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethodProvider
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ScopePropagator
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.TypeInferenceMethod
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretation2logic.InstanceModel2PartialInterpretation
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.BinaryElementRelationLink
-import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialComplexTypeInterpretation
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialInterpretation
+import java.util.HashMap
 import java.util.LinkedList
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EClass
@@ -54,8 +56,6 @@ class ModelLoader {
 //			
 //		}
 //		
-		
-		
 //		for (type : partialmodel.partialtypeinterpratation.filter(PartialComplexTypeInterpretation)) {
 //			print(type.interpretationOf.name)
 //			print(" > ")
@@ -64,11 +64,39 @@ class ModelLoader {
 //				println(" > " + element.name)
 //			}
 //		}
-		
 		val containmentRelations = partialmodel.problem.containmentHierarchies.head.containmentRelations.toSet
+		val inverseRelations = partialmodel.problem.annotations.filter(InverseRelationAssertion)
+		val inverseMap = new HashMap
+		for (inverseRelation : inverseRelations) {
+			inverseMap.put(inverseRelation.inverseA, inverseRelation.inverseB)
+		// inverseMap.put(inverseRelation.inverseB, inverseRelation.inverseA)
+		}
+		
+		val relationFilter = new AbstractRelationOperationFilter
+		val removableRelations =  relationFilter.getRemovableRelations(partialmodel, containmentRelations)
+		println("Number of removable relations: " + removableRelations.size)
+		
+		val removableNodes = new LinkedList
+		for (relation : partialmodel.partialrelationinterpretation) {
+			for (element : relation.relationlinks.filter(BinaryElementRelationLink)) {
+				if (!containmentRelations.contains(relation.interpretationOf)) {
+					removableNodes.add(element)
+				}
+			}
+		}
+
+		// println(partialmodel.eAllContents.size)
+		// partialmodel.partialrelationinterpretation.remove(removableRelations.get(0))
+		val remainingContent = partialmodel.eAllContents.toSet
+		println("Before: " + remainingContent.size)
+		remainingContent.remove(removableRelations.get(0))
+		println("After: " + remainingContent.size)
 
 		for (relation : partialmodel.partialrelationinterpretation) {
 			println(relation.interpretationOf.name + ": " + relation.relationlinks.size)
+			if (inverseMap.containsKey(relation.interpretationOf)) {
+				println("--> inverse: " + inverseMap.get(relation.interpretationOf).name)
+			}
 			for (element : relation.relationlinks.filter(BinaryElementRelationLink)) {
 				print(element.param1.name)
 				if (containmentRelations.contains(relation.interpretationOf)) {
@@ -86,6 +114,8 @@ class ModelLoader {
 //			print("\n")
 //		}
 	}
+
+	
 
 	def model2PartialModel(Resource model) {
 		val metamodelDescriptor = new EcoreMetamodelDescriptor(

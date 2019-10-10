@@ -1,4 +1,4 @@
-package hu.bme.mit.inf.dslreasoner.partialmodelanalysis;
+package hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction;
 
 public class SingleNodeAbstraction extends AbstractionOperation {
 
