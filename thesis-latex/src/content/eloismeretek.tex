@@ -1,0 +1,54 @@
+\chapter{Előismeretek}
+
+\section{Metamodell}
+
+Egy domain-specifikus nyelvet (Domain Specific Language) tipikusan egy metamodell és a hozzá tartozó jólformáltsági kényszerek (Well-Formedness Constraints) adnak meg. A metamodell specifikálja a modell alapstruktúráját, továbbá meghatározza a címkézett gráf  éleinek illetve csúcsainak lehetséges típusait. A jólformáltásgi kényszerek tervezési szabályok hozzáadásával ezt tovább szűkítik.
+
+\begin{definition}[Szignatúra]
+Szignatúra alatt egy olyan $\Sigma = \langle\mathit{C}, \mathit{R}, \mathit{A}, \mathit{E}, \mathit{L}\rangle$ struktúrát értünk, ahol $C = \{C_1, \ldots, C_i\}$ unáris típus predikátumokat, $R = \{R_1, \ldots, R_j\}$ bináris referencia predikátumokat, $A = \{A_1, \ldots, A_k\}$ bináris attribútum predikátumokat, $E = \{E_1, \ldots, E_l\}$ unáris enumeráció (felsorolható típus) predikátumokat és $L = \{L_1, \ldots, L_m\}$ az enumerációkat alkotó literálokat jelölnek.
+\end{definition}
+
+% \begin{definition}[Modellezési nyelv]
+% ---
+% \end{definition}
+
+\begin{definition}[Metamodell]
+Egy metamodell meghatározza egy modellezési nyelv legfőbb típusait, referenciáit, attribútumait és alapvető struktúráját. Formálisan: a metamodell meghatároz egy $\Sigma = \langle\mathit{C}, \mathit{R}, \mathit{A}, \mathit{E}, \mathit{L}\rangle$ szignatúrát, az $E = \{E_1, \ldots, E_l\}$ enumerációkhoz tartozó literálokat és az alábbi strukturális kényszereket:
+\begin{itemize}
+  \item $ \mathit{\textbf{MUL}}^\mathit{up}:  \{R_1, \ldots, R_j \} \rightarrow \mathbb{N}^+ \cup  \{*\} $
+  
+  \item $ \mathit{\textbf{MUL}}^\mathit{low}:  \{R_1, \ldots, R_j \} \rightarrow \mathbb{N} \cup  \{*\} $
+  
+  \item $ \mathit{\textbf{CON}}: \{R_1, \ldots, R_j \} \rightarrow \{0, 1\} $
+%meghatározza, hogy egy referencia tartalmazási él-e.
+  \item $ \mathit{\textbf{ABS}}: \{C_1, \ldots, C_i \} \rightarrow \{0, 1\} $
+%meghatározza, hogy egy osztály absztrakt-e.
+  \item $ \mathit{\textbf{INV}}: \{R_1, \ldots, R_j \} \times \{R_1, \ldots, R_j\} \rightarrow \{0, 1\} $
+  \item $ \mathit{\textbf{TCR}}^\mathit{src}: \{R_1, \ldots, R_j \} \rightarrow \{C_1, \ldots, C_i\} $  
+  \item $ \mathit{\textbf{TCR}}^\mathit{trg}: \{R_1, \ldots, R_j \} \rightarrow \{C_1, \ldots, C_i\} $
+  \item $ \mathit{\textbf{TCA}}^\mathit{src}: \{A_1, \ldots, A_k\} \rightarrow \{C_1, \ldots, C_i\} $
+  \item $ \mathit{\textbf{TCA}}^\mathit{trg}: \{A_1, \ldots, A_k\} \rightarrow \{\mathit{Int, String, Real, Boolean, Literal}\}$
+  \item $ \mathit{\textbf{SUP}}: \{C_1, \ldots, C_i\} \times \{C_1, \ldots, C_i\} \rightarrow \{0, 1\} $ 
+\end{itemize}
+
+\end{definition}
+
+
+\section{Példánymodell}
+\begin{definition}[Példánymodell]
+Példánymodell alatt egy olyan $M = \langle Obj_M, \mathcal{I}_M \rangle$ logikai struktúrát értünk, ahol $Obj_M $ egy véges, halmaza a modellben szereplő egyedeknek, $\mathcal{I}_M$ pedig interpetációt ad a szignatúrákban szereplő összes predikátumhoz, a következőképpen:
+\begin{itemize}
+\item[--] $\mathcal{I}_M(C_i) : Obj_M \rightarrow \{0, 1\}$
+\item[--] $\mathcal{I}_M(R_j) : Obj_M \times Obj_M \rightarrow \{0, 1\}$
+\end{itemize}
+Továbbá a halmazban szereplő összes egyedről tudjuk, hogy létezésük biztos, azaz 1.
+\end{definition}
+
+\section{Parciális modell}
+
+A parciális - vagy más néven részleges - modellekben megjelennek a bizonytalan alkotórészek is.
+Ezek a modellek még befejezetlenek, olyan elemek is megjelennek bennük, amiknek a létezése még nem ismert, ezeket egyketteddel jelöljük.
+
+\begin{definition}[Parciális modell]
+Parciális modell alatt egy olyan logikai struktúrát értünk, ahol\ldots
+\end{definition}

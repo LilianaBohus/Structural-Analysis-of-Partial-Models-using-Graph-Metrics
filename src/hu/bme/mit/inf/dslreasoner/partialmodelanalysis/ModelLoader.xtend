@@ -9,7 +9,6 @@ import hu.bme.mit.inf.dslreasoner.ecore2logic.ecore2logicannotations.InverseRela
 import hu.bme.mit.inf.dslreasoner.logic.model.builder.DocumentationLevel
 import hu.bme.mit.inf.dslreasoner.logic.model.builder.TracedOutput
 import hu.bme.mit.inf.dslreasoner.logic.model.logicproblem.LogicProblem
-import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstractionfilter.AbstractRelationOperationFilter
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethod
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethodProvider
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ScopePropagator
@@ -30,6 +29,7 @@ import org.eclipse.viatra.query.runtime.api.ViatraQueryEngine
 import org.eclipse.viatra.query.runtime.api.ViatraQueryMatcher
 import org.eclipse.viatra.query.runtime.emf.EMFScope
 import org.eclipse.viatra.query.runtime.rete.matcher.ReteEngine
+import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstractionfilter.RelationAbstractionOperationFilter
 
 class ModelLoader {
 	val ecore2Logic = new Ecore2Logic
@@ -72,9 +72,11 @@ class ModelLoader {
 		// inverseMap.put(inverseRelation.inverseB, inverseRelation.inverseA)
 		}
 		
-		val relationFilter = new AbstractRelationOperationFilter
+		val relationFilter = new RelationAbstractionOperationFilter
 		val removableRelations =  relationFilter.getRemovableRelations(partialmodel, containmentRelations)
 		println("Number of removable relations: " + removableRelations.size)
+		
+		partialmodel.partialrelationinterpretation.filter(BinaryElementRelationLink)
 		
 		val removableNodes = new LinkedList
 		for (relation : partialmodel.partialrelationinterpretation) {

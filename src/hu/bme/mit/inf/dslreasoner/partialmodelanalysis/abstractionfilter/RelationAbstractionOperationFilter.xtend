@@ -5,7 +5,7 @@ import java.util.LinkedList
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.BinaryElementRelationLink
 import java.util.Set
 
-class AbstractRelationOperationFilter {
+class RelationAbstractionOperationFilter {
 	
 	def getRemovableRelations(PartialInterpretation partialmodel, Set containmentRelations) {
 		val removableRelations = new LinkedList
