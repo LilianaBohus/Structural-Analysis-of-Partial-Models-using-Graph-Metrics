@@ -1,16 +1,22 @@
 package hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction;
 
+import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.BinaryElementRelationLink;
+import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialRelationInterpretation;
+
 public class RelationAbstraction extends AbstractionOperation {
 
+	PartialRelationInterpretation relation;
+	BinaryElementRelationLink link;
+	
+	
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		relation.getRelationlinks().remove(link);
 	}
 	
-	
-	public RelationAbstraction() {
-		// TODO Auto-generated constructor stub
+	public RelationAbstraction(PartialRelationInterpretation relation, BinaryElementRelationLink link) {
+		this.relation = relation;
+		this.link = link;
 	}
 	
 

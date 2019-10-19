@@ -4,7 +4,7 @@ Bundle-Name: Partialmodelanalysis
 Bundle-SymbolicName: hu.bme.mit.inf.dslreasoner.partialmodelanalysis
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: hu.bme.mit.inf.dslreasoner.partialmodelanalysis
-Bundle-RequiredExecutionEnvironment: JavaSE-12
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="2.16.0",
  hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage;bundle-version="1.0.0",
  hu.bme.mit.inf.dslreasoner.ecore2logic;bundle-version="1.0.0",

@@ -30,6 +30,7 @@ import org.eclipse.viatra.query.runtime.api.ViatraQueryMatcher
 import org.eclipse.viatra.query.runtime.emf.EMFScope
 import org.eclipse.viatra.query.runtime.rete.matcher.ReteEngine
 import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstractionfilter.RelationAbstractionOperationFilter
+import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.RelationAbstraction
 
 class ModelLoader {
 	val ecore2Logic = new Ecore2Logic
@@ -78,17 +79,33 @@ class ModelLoader {
 		
 		partialmodel.partialrelationinterpretation.filter(BinaryElementRelationLink)
 		
+		val removableRelationLinks = new LinkedList
+		for (relation : partialmodel.partialrelationinterpretation) {
+			for (element : relation.relationlinks.filter(BinaryElementRelationLink)) {
+				if (!containmentRelations.contains(relation.interpretationOf)) {
+					// if --> inverserelationben benne van --> 2-to elementes konstruktor
+					removableRelationLinks += new RelationAbstraction(relation, element)
+				}
+			}
+		}
+		
 		val removableNodes = new LinkedList
 		for (relation : partialmodel.partialrelationinterpretation) {
 			for (element : relation.relationlinks.filter(BinaryElementRelationLink)) {
 				if (!containmentRelations.contains(relation.interpretationOf)) {
-					removableNodes.add(element)
+					removableRelationLinks += new RelationAbstraction(relation, element)
 				}
 			}
 		}
-
+		
+		val abstractionOperations = (removableRelationLinks + removableNodes).toList
+		
+		
 		// println(partialmodel.eAllContents.size)
 		// partialmodel.partialrelationinterpretation.remove(removableRelations.get(0))
+		
+		
+		
 		val remainingContent = partialmodel.eAllContents.toSet
 		println("Before: " + remainingContent.size)
 		remainingContent.remove(removableRelations.get(0))
