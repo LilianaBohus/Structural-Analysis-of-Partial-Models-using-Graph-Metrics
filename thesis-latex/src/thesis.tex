@@ -71,25 +71,27 @@ gráfmetrikákkal} % Cím
 
 % Declaration and Abstract
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\include{include/declaration} %TODO Hallgatói nyilatkozat -- TDK és OTDK esetén törlendő!
-\include{content/abstract}    %TODO Összefoglaló -- TDK és OTDK esetén nem kötelező
-
+\include{include/declaration}
+\include{include/placeholder}
+\include{content/abstract} 
 
 % The main part of the thesis
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \pagenumbering{arabic}
 
 %TODO import your own content
-\include{content/introduction}
+\include{content/bevezetes}
 \include{content/eloismeretek}
-\include{content/latex-tools}
-\include{content/thesis-format}
-\include{content/template-usage}
+\include{content/attekintes}
+\include{content/kidolgozas}
+\include{content/mérések}
+\include{content/kapcsolodo-munkak}
+\include{content/osszefoglalas}
 
 
 % Acknowledgements
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\include{content/acknowledgement}
+%\include{content/acknowledgement}
 
 
 % List of Figures, Tables
@@ -106,7 +108,7 @@ gráfmetrikákkal} % Cím
 
 % Appendix
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\include{content/appendices}
+%\include{content/appendices}
 
 %\label{page:last}
 \end{document}
