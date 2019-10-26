@@ -24,8 +24,7 @@ public class StatechartLoader {
 		map.put("xmi", new XMIResourceFactoryImpl());
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
-		
-		Resource resource = resourceSet.getResource(URI.createURI(YAKINDU_HUMAN_100_URI + index + ".xml"), true); // vagy false :D
+		Resource resource = resourceSet.getResource(URI.createURI(YAKINDU_HUMAN_100_URI + index + ".xmi"), true);
 		
 		Statechart statechart = (Statechart) resource.getContents().get(0);
 		

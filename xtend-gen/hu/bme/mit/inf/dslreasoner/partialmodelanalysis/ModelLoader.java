@@ -12,6 +12,7 @@ import hu.bme.mit.inf.dslreasoner.logic.model.builder.TracedOutput;
 import hu.bme.mit.inf.dslreasoner.logic.model.logiclanguage.Relation;
 import hu.bme.mit.inf.dslreasoner.logic.model.logicproblem.ContainmentHierarchy;
 import hu.bme.mit.inf.dslreasoner.logic.model.logicproblem.LogicProblem;
+import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.StatisticsService;
 import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.RelationAbstraction;
 import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstractionfilter.RelationAbstractionOperationFilter;
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethod;
@@ -70,11 +71,13 @@ public class ModelLoader {
     Map<String, Object> _extensionToFactoryMap = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
     XMIResourceFactoryImpl _xMIResourceFactoryImpl = new XMIResourceFactoryImpl();
     _extensionToFactoryMap.put("xmi", _xMIResourceFactoryImpl);
+    final StatisticsService statistics = new StatisticsService();
+    statistics.createStatistics();
     final ModelLoader loader = new ModelLoader();
     final String modelinstancesURI = "instancemodels/ICSE2020-InstanceModels/yakindumm/human/humanInput100/run1/";
     final Resource model = loader.loadModel((modelinstancesURI + "1.xmi"));
     final PartialInterpretation partialmodel = loader.model2PartialModel(model);
-    final Set<Relation> containmentRelations = IterableExtensions.<Relation>toSet(IterableExtensions.<ContainmentHierarchy>head(partialmodel.getProblem().getContainmentHierarchies()).getContainmentRelations());
+    final Set<Relation> containmentRelations = loader.getContainmentRelations(partialmodel);
     final Iterable<InverseRelationAssertion> inverseRelations = Iterables.<InverseRelationAssertion>filter(partialmodel.getProblem().getAnnotations(), InverseRelationAssertion.class);
     final HashMap<Relation, Relation> inverseMap = new HashMap<Relation, Relation>();
     for (final InverseRelationAssertion inverseRelation : inverseRelations) {
@@ -85,7 +88,6 @@ public class ModelLoader {
     int _size = removableRelations.size();
     String _plus = ("Number of removable relations: " + Integer.valueOf(_size));
     InputOutput.<String>println(_plus);
-    /* Iterables.<BinaryElementRelationLink>filter(partialmodel.getPartialrelationinterpretation(), BinaryElementRelationLink.class); */
     final LinkedList<RelationAbstraction> removableRelationLinks = new LinkedList<RelationAbstraction>();
     EList<PartialRelationInterpretation> _partialrelationinterpretation = partialmodel.getPartialrelationinterpretation();
     for (final PartialRelationInterpretation relation : _partialrelationinterpretation) {
@@ -99,6 +101,9 @@ public class ModelLoader {
         }
       }
     }
+    int _size_1 = removableRelationLinks.size();
+    String _plus_1 = ("Number of removable relationlinks: " + Integer.valueOf(_size_1));
+    InputOutput.<String>println(_plus_1);
     final LinkedList<RelationAbstraction> removableNodes = new LinkedList<RelationAbstraction>();
     EList<PartialRelationInterpretation> _partialrelationinterpretation_1 = partialmodel.getPartialrelationinterpretation();
     for (final PartialRelationInterpretation relation_1 : _partialrelationinterpretation_1) {
@@ -107,49 +112,22 @@ public class ModelLoader {
         boolean _contains_1 = containmentRelations.contains(relation_1.getInterpretationOf());
         boolean _not_1 = (!_contains_1);
         if (_not_1) {
-          RelationAbstraction _relationAbstraction_1 = new RelationAbstraction(relation_1, element_1);
-          removableRelationLinks.add(_relationAbstraction_1);
         }
       }
     }
-    final List<RelationAbstraction> abstractionOperations = IterableExtensions.<RelationAbstraction>toList(Iterables.<RelationAbstraction>concat(removableRelationLinks, removableNodes));
-    final Set<EObject> remainingContent = IteratorExtensions.<EObject>toSet(partialmodel.eAllContents());
-    int _size_1 = remainingContent.size();
-    String _plus_1 = ("Before: " + Integer.valueOf(_size_1));
-    InputOutput.<String>println(_plus_1);
-    remainingContent.remove(removableRelations.get(0));
-    int _size_2 = remainingContent.size();
-    String _plus_2 = ("After: " + Integer.valueOf(_size_2));
+    int _size_2 = removableNodes.size();
+    String _plus_2 = ("Number of removable nodes: " + Integer.valueOf(_size_2));
     InputOutput.<String>println(_plus_2);
-    EList<PartialRelationInterpretation> _partialrelationinterpretation_2 = partialmodel.getPartialrelationinterpretation();
-    for (final PartialRelationInterpretation relation_2 : _partialrelationinterpretation_2) {
-      {
-        String _name = relation_2.getInterpretationOf().getName();
-        String _plus_3 = (_name + ": ");
-        int _size_3 = relation_2.getRelationlinks().size();
-        String _plus_4 = (_plus_3 + Integer.valueOf(_size_3));
-        InputOutput.<String>println(_plus_4);
-        boolean _containsKey = inverseMap.containsKey(relation_2.getInterpretationOf());
-        if (_containsKey) {
-          String _name_1 = inverseMap.get(relation_2.getInterpretationOf()).getName();
-          String _plus_5 = ("--> inverse: " + _name_1);
-          InputOutput.<String>println(_plus_5);
-        }
-        Iterable<BinaryElementRelationLink> _filter_2 = Iterables.<BinaryElementRelationLink>filter(relation_2.getRelationlinks(), BinaryElementRelationLink.class);
-        for (final BinaryElementRelationLink element_2 : _filter_2) {
-          {
-            InputOutput.<String>print(element_2.getParam1().getName());
-            boolean _contains_2 = containmentRelations.contains(relation_2.getInterpretationOf());
-            if (_contains_2) {
-              InputOutput.<String>print(" => ");
-            } else {
-              InputOutput.<String>print(" -> ");
-            }
-            InputOutput.<String>println(element_2.getParam2().getName());
-          }
-        }
-      }
-    }
+    final List<RelationAbstraction> abstractionOperations = IterableExtensions.<RelationAbstraction>toList(Iterables.<RelationAbstraction>concat(removableRelationLinks, removableNodes));
+    InputOutput.<Integer>println(Integer.valueOf(abstractionOperations.size()));
+    final Set<EObject> remainingContent = IteratorExtensions.<EObject>toSet(partialmodel.eAllContents());
+    int _size_3 = remainingContent.size();
+    String _plus_3 = ("Before: " + Integer.valueOf(_size_3));
+    InputOutput.<String>println(_plus_3);
+    remainingContent.remove(removableRelations.get(0));
+    int _size_4 = remainingContent.size();
+    String _plus_4 = ("After: " + Integer.valueOf(_size_4));
+    InputOutput.<String>println(_plus_4);
   }
   
   public PartialInterpretation model2PartialModel(final Resource model) {
@@ -213,5 +191,9 @@ public class ModelLoader {
       _builder.append(_countMatches);
       InputOutput.<String>println(_builder.toString());
     }
+  }
+  
+  public Set<Relation> getContainmentRelations(final PartialInterpretation partialmodel) {
+    return IterableExtensions.<Relation>toSet(IterableExtensions.<ContainmentHierarchy>head(partialmodel.getProblem().getContainmentHierarchies()).getContainmentRelations());
   }
 }
