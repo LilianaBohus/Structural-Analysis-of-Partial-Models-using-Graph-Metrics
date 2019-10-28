@@ -1,7 +1,5 @@
 package hu.bme.mit.inf.dslreasoner.partialmodelanalysis;
 
-import java.util.Iterator;
-
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 

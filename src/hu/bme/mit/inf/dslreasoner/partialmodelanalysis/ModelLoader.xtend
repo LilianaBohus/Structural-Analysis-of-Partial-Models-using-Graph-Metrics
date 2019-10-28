@@ -9,6 +9,8 @@ import hu.bme.mit.inf.dslreasoner.ecore2logic.ecore2logicannotations.InverseRela
 import hu.bme.mit.inf.dslreasoner.logic.model.builder.DocumentationLevel
 import hu.bme.mit.inf.dslreasoner.logic.model.builder.TracedOutput
 import hu.bme.mit.inf.dslreasoner.logic.model.logicproblem.LogicProblem
+import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.RelationAbstraction
+import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstractionfilter.RelationAbstractionOperationFilter
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethod
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethodProvider
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ScopePropagator
@@ -29,9 +31,6 @@ import org.eclipse.viatra.query.runtime.api.ViatraQueryEngine
 import org.eclipse.viatra.query.runtime.api.ViatraQueryMatcher
 import org.eclipse.viatra.query.runtime.emf.EMFScope
 import org.eclipse.viatra.query.runtime.rete.matcher.ReteEngine
-import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstractionfilter.RelationAbstractionOperationFilter
-import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.RelationAbstraction
-import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.NodeAbstraction
 
 class ModelLoader {
 	val ecore2Logic = new Ecore2Logic
@@ -47,14 +46,10 @@ class ModelLoader {
 		ReteEngine.getClass();
 		YakindummPackage.eINSTANCE.eClass
 		Resource.Factory.Registry.INSTANCE.extensionToFactoryMap.put("xmi", new XMIResourceFactoryImpl)
-		
-		
+
 		// ...
-		
 		val statistics = new StatisticsService
 		statistics.createStatistics
-		
-		
 
 		val loader = new ModelLoader
 		val modelinstancesURI = "instancemodels/ICSE2020-InstanceModels/yakindumm/human/humanInput100/run1/"
@@ -76,18 +71,17 @@ class ModelLoader {
 //		}
 		val containmentRelations = loader.getContainmentRelations(partialmodel)
 		val inverseRelations = partialmodel.problem.annotations.filter(InverseRelationAssertion)
-		
+
 		val inverseMap = new HashMap
 		for (inverseRelation : inverseRelations) {
 			inverseMap.put(inverseRelation.inverseA, inverseRelation.inverseB)
 		// inverseMap.put(inverseRelation.inverseB, inverseRelation.inverseA)
 		}
-		
+
 		val relationFilter = new RelationAbstractionOperationFilter
-		val removableRelations =  relationFilter.getRemovableRelations(partialmodel, containmentRelations)
+		val removableRelations = relationFilter.getRemovableRelations(partialmodel, containmentRelations)
 		println("Number of removable relations: " + removableRelations.size)
-		
-		
+
 		val removableRelationLinks = new LinkedList
 		for (relation : partialmodel.partialrelationinterpretation) {
 			for (element : relation.relationlinks.filter(BinaryElementRelationLink)) {
@@ -98,7 +92,7 @@ class ModelLoader {
 			}
 		}
 		println("Number of removable relationlinks: " + removableRelationLinks.size)
-		
+
 		val removableNodes = new LinkedList
 		for (relation : partialmodel.partialrelationinterpretation) {
 			for (element : relation.relationlinks.filter(BinaryElementRelationLink)) {
@@ -108,18 +102,12 @@ class ModelLoader {
 			}
 		}
 		println("Number of removable nodes: " + removableNodes.size)
-		
+
 		val abstractionOperations = (removableRelationLinks + removableNodes).toList
 		println(abstractionOperations.size())
-		
-		
-		
-		
+
 		// println(partialmodel.eAllContents.size)
 		// partialmodel.partialrelationinterpretation.remove(removableRelations.get(0))
-		
-		
-		
 		val remainingContent = partialmodel.eAllContents.toSet
 		println("Before: " + remainingContent.size)
 		remainingContent.remove(removableRelations.get(0))
@@ -141,14 +129,11 @@ class ModelLoader {
 //			}
 //
 //		}
-
 //		for (contents : partialmodel.eAllContents.toIterable){
 //			print(contents)
 //			print("\n")
 //		}
 	}
-
-	
 
 	def model2PartialModel(Resource model) {
 		val metamodelDescriptor = new EcoreMetamodelDescriptor(
@@ -202,8 +187,8 @@ class ModelLoader {
 			println('''«matcher.patternName» -> «matcher.countMatches»''')
 		}
 	}
-	
-	def getContainmentRelations(PartialInterpretation partialmodel){
+
+	def getContainmentRelations(PartialInterpretation partialmodel) {
 		return partialmodel.problem.containmentHierarchies.head.containmentRelations.toSet
 	}
 }
