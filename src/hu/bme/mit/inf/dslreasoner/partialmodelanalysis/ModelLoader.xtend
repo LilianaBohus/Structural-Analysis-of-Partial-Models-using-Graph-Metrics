@@ -31,6 +31,8 @@ import org.eclipse.viatra.query.runtime.api.ViatraQueryEngine
 import org.eclipse.viatra.query.runtime.api.ViatraQueryMatcher
 import org.eclipse.viatra.query.runtime.emf.EMFScope
 import org.eclipse.viatra.query.runtime.rete.matcher.ReteEngine
+import java.util.Iterator
+import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.NodeAbstraction
 
 class ModelLoader {
 	val ecore2Logic = new Ecore2Logic
@@ -96,14 +98,17 @@ class ModelLoader {
 		val removableNodes = new LinkedList
 		for (relation : partialmodel.partialrelationinterpretation) {
 			for (element : relation.relationlinks.filter(BinaryElementRelationLink)) {
-				if (!containmentRelations.contains(relation.interpretationOf)) {
-					// removableNodes += new NodeAbstraction(relation, element)
-				}
+				//
+				// TODO: ha nincs belőle kimenő, bemenő él
+				//
+				// if (!containmentRelations.contains(relation.interpretationOf)) {
+					removableNodes += new NodeAbstraction(relation, element, partialmodel)
+				// }
 			}
 		}
 		println("Number of removable nodes: " + removableNodes.size)
 
-		val abstractionOperations = (removableRelationLinks + removableNodes).toList
+		val abstractionOperations = removableNodes.toList + removableRelationLinks.toList
 		println(abstractionOperations.size())
 
 		// println(partialmodel.eAllContents.size)
@@ -190,5 +195,9 @@ class ModelLoader {
 
 	def getContainmentRelations(PartialInterpretation partialmodel) {
 		return partialmodel.problem.containmentHierarchies.head.containmentRelations.toSet
+	}
+	
+	public static def <X> x(Iterator<X> p) {
+		p.toIterable
 	}
 }

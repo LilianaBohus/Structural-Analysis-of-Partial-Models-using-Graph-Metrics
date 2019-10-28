@@ -6,6 +6,9 @@ import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.par
 public class RelationAbstraction extends AbstractionOperation {
 	PartialRelationInterpretation relation;
 	BinaryElementRelationLink link;
+	PartialRelationInterpretation inverseRelation;
+	BinaryElementRelationLink inverseLink;
+	
 
 	@Override
 	public void execute() {

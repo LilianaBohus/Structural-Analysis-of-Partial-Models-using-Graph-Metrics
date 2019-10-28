@@ -1,7 +1,10 @@
 package hu.bme.mit.inf.dslreasoner.partialmodelanalysis;
 
-import org.eclipse.emf.common.util.TreeIterator;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 
 import hu.bme.mit.inf.dslreasoner.domains.yakindu.sgraph.yakindumm.Statechart;
 
@@ -12,20 +15,12 @@ public class StatisticsService {
 		StatechartLoader loader = new StatechartLoader();
 		Statechart stateChart = loader.loadOne(1);
 		
-		TreeIterator<EObject> iterator = stateChart.eAllContents();
-		int i = 0;
+		Map typeToAmount = new HashMap();
 		
-		while (iterator.hasNext()) {
-			System.out.println(iterator.getClass());
-			iterator.next();
-			i++;
-			
-		}
-		
-		System.out.println(i);
-		
-		
+		for (EObject element : IteratorExtensions.toIterable(stateChart.eAllContents())) {
+			System.out.println(element.eClass().getName());
+			if (typeToAmount.containsKey(element.getClass().getName())) {
+				//typeToAmount
+		}}
 	}
-	
-
 }
