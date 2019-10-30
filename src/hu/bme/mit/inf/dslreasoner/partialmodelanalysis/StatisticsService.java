@@ -17,45 +17,54 @@ import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import hu.bme.mit.inf.dslreasoner.domains.yakindu.sgraph.yakindumm.Statechart;
 
 public class StatisticsService {
+	private static final String FILE_NAME = "typeStatistics";
 	private static final String SEPARATOR = ",";
 	private static final int NUMBER_OF_STATECHARTS = 300;
-
+	
 	public void createStatistics() throws IOException {
+		BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME + ".csv"));
+		
+		// TODO szétszedéskor elveszhetnek labelek
 		List<String> labels = createSortedLabelList();
+		writer.write(createLabelRow(labels));
+		writer.newLine();
 
-		BufferedWriter writer = new BufferedWriter(new FileWriter("typeStatistics.csv"));
+		for (int currentStatechart = 1; currentStatechart < NUMBER_OF_STATECHARTS; currentStatechart++) {
+			Map<String, Integer> statechartTypeToAmount = createTypeToAmountMap(currentStatechart);
+			writer.write(createDataRow(labels, statechartTypeToAmount));
+			writer.newLine();
+		}
 
+		writer.close();
+	}
+
+	private String createDataRow(List<String> labels, Map<String, Integer> statechartTypeToAmount) {
+		StringBuilder stringBuilder = new StringBuilder();
+		labels.forEach(label -> {
+			if (statechartTypeToAmount.containsKey(label)) {
+				stringBuilder.append(statechartTypeToAmount.get(label));
+			} else {
+				stringBuilder.append(0);
+			}
+			stringBuilder.append(SEPARATOR);
+		});
+		stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+		return stringBuilder.toString();
+	}
+
+	private String createLabelRow(List<String> labels) {
 		StringBuilder labelBuilder = new StringBuilder();
 		labels.forEach(label -> {
 			labelBuilder.append(label);
 			labelBuilder.append(SEPARATOR);
 		});
 		labelBuilder.deleteCharAt(labelBuilder.length() - 1);
-
-		writer.write(labelBuilder.toString());
-		writer.newLine();
-
-		for (int i = 1; i < NUMBER_OF_STATECHARTS; i++) {
-			Map<String, Integer> statechartTypeToAmount = createTypeToAmount(i);
-			StringBuilder stringBuilder = new StringBuilder();
-			labels.forEach(label -> {
-				if (statechartTypeToAmount.containsKey(label)) {
-					stringBuilder.append(statechartTypeToAmount.get(label));
-				} else {
-					stringBuilder.append(0);
-				}
-				stringBuilder.append(SEPARATOR);
-			});
-			stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-			writer.write(stringBuilder.toString());
-			writer.newLine();
-			stringBuilder.setLength(0);
-		}
-
-		writer.close();
+		return labelBuilder.toString();
 	}
 
-	private Map<String, Integer> createTypeToAmount(int index) {
+
+
+	private Map<String, Integer> createTypeToAmountMap(int index) {
 		StatechartLoader loader = new StatechartLoader();
 		Statechart statechart = loader.loadOne(index);
 		Map<String, Integer> typeToAmount = new HashMap<String, Integer>();
