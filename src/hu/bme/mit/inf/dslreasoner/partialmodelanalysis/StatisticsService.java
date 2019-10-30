@@ -14,7 +14,6 @@ import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import hu.bme.mit.inf.dslreasoner.domains.yakindu.sgraph.yakindumm.Statechart;
 
 public class StatisticsService {
-
 	private static final int NUMBER_OF_STATECHARTS = 300;
 
 	public void createStatistics() {
@@ -23,26 +22,26 @@ public class StatisticsService {
 
 		for (int i = 1; i < NUMBER_OF_STATECHARTS; i++) {
 			Map<String, Integer> statechartTypeToAmount = createTypeToAmount(i);
+			StringBuilder stringBuilder = new StringBuilder();
 			labels.forEach(label -> {
 				if (statechartTypeToAmount.containsKey(label)) {
-					System.out.print(statechartTypeToAmount.get(label));
+					stringBuilder.append(statechartTypeToAmount.get(label));
 				} else {
-					System.out.print(0);
+					stringBuilder.append(0);
 				}
-				System.out.print(";");
+				stringBuilder.append(";");
 			});
-			System.out.println();
-
+			stringBuilder.deleteCharAt(stringBuilder.length()-1);
+			System.out.println(stringBuilder);
+			
+			stringBuilder.setLength(0);
 		}
-
-		System.out.println(labels);
-
 	}
 
 	private Map<String, Integer> createTypeToAmount(int index) {
-		Map<String, Integer> typeToAmount = new HashMap<String, Integer>();
 		StatechartLoader loader = new StatechartLoader();
 		Statechart statechart = loader.loadOne(index);
+		Map<String, Integer> typeToAmount = new HashMap<String, Integer>();
 		for (EObject element : IteratorExtensions.toIterable(statechart.eAllContents())) {
 			String key = element.eClass().getName();
 			if (typeToAmount.containsKey(key)) {
@@ -50,7 +49,6 @@ public class StatisticsService {
 			} else {
 				typeToAmount.put(key, 1);
 			}
-
 		}
 		return typeToAmount;
 	}
