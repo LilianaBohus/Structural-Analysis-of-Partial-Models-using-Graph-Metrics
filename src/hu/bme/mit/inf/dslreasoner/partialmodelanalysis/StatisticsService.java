@@ -14,12 +14,21 @@ import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import hu.bme.mit.inf.dslreasoner.domains.yakindu.sgraph.yakindumm.Statechart;
 
 public class StatisticsService {
+	private static final String SEPARATOR = ";";
 	private static final int NUMBER_OF_STATECHARTS = 300;
 
 	public void createStatistics() {
 		List<String> labels = createSortedLabelList();
-		System.out.println(labels);
-
+		
+		StringBuilder labelBuilder = new StringBuilder();		
+		labels.forEach(label -> {
+			labelBuilder.append(label);
+			labelBuilder.append(SEPARATOR);
+		});
+		labelBuilder.deleteCharAt(labelBuilder.length()-1);
+		
+		System.out.println(labelBuilder);
+		
 		for (int i = 1; i < NUMBER_OF_STATECHARTS; i++) {
 			Map<String, Integer> statechartTypeToAmount = createTypeToAmount(i);
 			StringBuilder stringBuilder = new StringBuilder();
@@ -29,7 +38,7 @@ public class StatisticsService {
 				} else {
 					stringBuilder.append(0);
 				}
-				stringBuilder.append(";");
+				stringBuilder.append(SEPARATOR);
 			});
 			stringBuilder.deleteCharAt(stringBuilder.length()-1);
 			System.out.println(stringBuilder);
