@@ -1,5 +1,8 @@
 package hu.bme.mit.inf.dslreasoner.partialmodelanalysis;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,21 +17,24 @@ import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import hu.bme.mit.inf.dslreasoner.domains.yakindu.sgraph.yakindumm.Statechart;
 
 public class StatisticsService {
-	private static final String SEPARATOR = ";";
+	private static final String SEPARATOR = ",";
 	private static final int NUMBER_OF_STATECHARTS = 300;
 
-	public void createStatistics() {
+	public void createStatistics() throws IOException {
 		List<String> labels = createSortedLabelList();
-		
-		StringBuilder labelBuilder = new StringBuilder();		
+
+		BufferedWriter writer = new BufferedWriter(new FileWriter("typeStatistics.csv"));
+
+		StringBuilder labelBuilder = new StringBuilder();
 		labels.forEach(label -> {
 			labelBuilder.append(label);
 			labelBuilder.append(SEPARATOR);
 		});
-		labelBuilder.deleteCharAt(labelBuilder.length()-1);
-		
-		System.out.println(labelBuilder);
-		
+		labelBuilder.deleteCharAt(labelBuilder.length() - 1);
+
+		writer.write(labelBuilder.toString());
+		writer.newLine();
+
 		for (int i = 1; i < NUMBER_OF_STATECHARTS; i++) {
 			Map<String, Integer> statechartTypeToAmount = createTypeToAmount(i);
 			StringBuilder stringBuilder = new StringBuilder();
@@ -40,11 +46,13 @@ public class StatisticsService {
 				}
 				stringBuilder.append(SEPARATOR);
 			});
-			stringBuilder.deleteCharAt(stringBuilder.length()-1);
-			System.out.println(stringBuilder);
-			
+			stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+			writer.write(stringBuilder.toString());
+			writer.newLine();
 			stringBuilder.setLength(0);
 		}
+
+		writer.close();
 	}
 
 	private Map<String, Integer> createTypeToAmount(int index) {
