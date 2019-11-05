@@ -8,15 +8,23 @@ public class RelationAbstraction extends AbstractionOperation {
 	BinaryElementRelationLink link;
 	PartialRelationInterpretation inverseRelation;
 	BinaryElementRelationLink inverseLink;
-	
 
 	@Override
 	public void execute() {
 		relation.getRelationlinks().remove(link);
+		inverseRelation.getRelationlinks().remove(inverseLink);
 	}
 
 	public RelationAbstraction(PartialRelationInterpretation relation, BinaryElementRelationLink link) {
 		this.relation = relation;
 		this.link = link;
+	}
+
+	public RelationAbstraction(PartialRelationInterpretation relation, BinaryElementRelationLink link,
+			PartialRelationInterpretation inverseRelation, BinaryElementRelationLink inverse) {
+		this.relation = relation;
+		this.link = link;
+		this.inverseRelation = inverseRelation;
+		this.inverseLink = inverse;
 	}
 }

@@ -11,10 +11,12 @@ public class NodeAbstraction extends AbstractionOperation {
 	PartialInterpretation partialmodel;
 	PartialRelationInterpretation relation;
 	BinaryElementRelationLink link;
+	BinaryElementRelationLink inverseLink;
 
 	@Override
 	public void execute() {
 		relation.getRelationlinks().remove(link);
+		relation.getRelationlinks().remove(inverseLink);
 		DefinedElement child = link.getParam2();
 		for(PartialTypeInterpratation type : partialmodel.getPartialtypeinterpratation()) {
 			type.getElements().remove(child);
@@ -25,6 +27,14 @@ public class NodeAbstraction extends AbstractionOperation {
 	public NodeAbstraction(PartialRelationInterpretation relation, BinaryElementRelationLink link, PartialInterpretation partialmodel) {
 		this.relation = relation;
 		this.link = link;
+		this.partialmodel = partialmodel;
+	}
+	
+	// with inverse
+	public NodeAbstraction(PartialRelationInterpretation relation, BinaryElementRelationLink link, PartialInterpretation partialmodel, BinaryElementRelationLink inverse) {
+		this.relation = relation;
+		this.link = link;
+		this.inverseLink = inverse;
 		this.partialmodel = partialmodel;
 	}
 

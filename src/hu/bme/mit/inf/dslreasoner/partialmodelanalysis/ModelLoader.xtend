@@ -33,6 +33,7 @@ import org.eclipse.viatra.query.runtime.emf.EMFScope
 import org.eclipse.viatra.query.runtime.rete.matcher.ReteEngine
 import java.util.Iterator
 import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.NodeAbstraction
+import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialComplexTypeInterpretation
 
 class ModelLoader {
 	val ecore2Logic = new Ecore2Logic
@@ -49,51 +50,51 @@ class ModelLoader {
 		YakindummPackage.eINSTANCE.eClass
 		Resource.Factory.Registry.INSTANCE.extensionToFactoryMap.put("xmi", new XMIResourceFactoryImpl)
 
-		// ...
 		val statistics = new StatisticsService
 		statistics.createStatistics
 
 		val loader = new ModelLoader
 		val modelinstancesURI = "instancemodels/ICSE2020-InstanceModels/yakindumm/human/humanInput100/run1/"
-		val model = loader.loadModel(modelinstancesURI + "1.xmi")
+
+		// ciklusba:
+		val model = loader.loadModel(modelinstancesURI + 1 + ".xmi")
 		val partialmodel = loader.model2PartialModel(model)
 
-//		for (element : partialmodel.newElements) {
-//			print(element.name)
-//			
-//		}
-//		
-//		for (type : partialmodel.partialtypeinterpratation.filter(PartialComplexTypeInterpretation)) {
-//			print(type.interpretationOf.name)
-//			print(" > ")
-//			println(type.elements.size)
-//			for (element : type.elements) {
-//				println(" > " + element.name)
-//			}
-//		}
+		// loader.printNodes(partialmodel)
+		// loader.printNodesByType(partialmodel)
 		val containmentRelations = loader.getContainmentRelations(partialmodel)
 		val inverseRelations = partialmodel.problem.annotations.filter(InverseRelationAssertion)
 
 		val inverseMap = new HashMap
 		for (inverseRelation : inverseRelations) {
 			inverseMap.put(inverseRelation.inverseA, inverseRelation.inverseB)
-		// inverseMap.put(inverseRelation.inverseB, inverseRelation.inverseA)
+			inverseMap.put(inverseRelation.inverseB, inverseRelation.inverseA)
 		}
 
 		val relationFilter = new RelationAbstractionOperationFilter
 		val removableRelations = relationFilter.getRemovableRelations(partialmodel, containmentRelations)
 		println("Number of removable relations: " + removableRelations.size)
 
+		var i = 0;
 		val removableRelationLinks = new LinkedList
 		for (relation : partialmodel.partialrelationinterpretation) {
 			for (element : relation.relationlinks.filter(BinaryElementRelationLink)) {
 				if (!containmentRelations.contains(relation.interpretationOf)) {
-					// if --> inverserelationben benne van --> 2-to elementes konstruktor
+					if (inverseMap.containsKey(relation.interpretationOf)){
+						val inverseType = partialmodel.partialrelationinterpretation.filter[it.interpretationOf === inverseMap.get(relation.interpretationOf)].head
+						val inverseLink = inverseType.relationlinks.filter(BinaryElementRelationLink)
+						.filter[it.param1 === element.param2 && it.param2 === element.param1].head
+						removableRelationLinks += new RelationAbstraction(
+							relation, element, inverseType, inverseLink)	
+							i++;
+					}
 					removableRelationLinks += new RelationAbstraction(relation, element)
 				}
 			}
 		}
+		
 		println("Number of removable relationlinks: " + removableRelationLinks.size)
+		println("Has inverse: "+ i)
 
 		val removableNodes = new LinkedList
 		for (relation : partialmodel.partialrelationinterpretation) {
@@ -102,8 +103,8 @@ class ModelLoader {
 				// TODO: ha nincs belőle kimenő, bemenő él
 				//
 				// if (!containmentRelations.contains(relation.interpretationOf)) {
-					removableNodes += new NodeAbstraction(relation, element, partialmodel)
-				// }
+				removableNodes += new NodeAbstraction(relation, element, partialmodel)
+			// }
 			}
 		}
 		println("Number of removable nodes: " + removableNodes.size)
@@ -138,6 +139,23 @@ class ModelLoader {
 //			print(contents)
 //			print("\n")
 //		}
+	}
+
+	def printNodes(PartialInterpretation partialmodel) {
+		for (element : partialmodel.newElements) {
+			println(element.name)
+		}
+	}
+
+	def printNodesByType(PartialInterpretation partialmodel) {
+		for (type : partialmodel.partialtypeinterpratation.filter(PartialComplexTypeInterpretation)) {
+			print(type.interpretationOf.name)
+			print(" > ")
+			println(type.elements.size)
+			for (element : type.elements) {
+				println(" > " + element.name)
+			}
+		}
 	}
 
 	def model2PartialModel(Resource model) {
@@ -196,8 +214,8 @@ class ModelLoader {
 	def getContainmentRelations(PartialInterpretation partialmodel) {
 		return partialmodel.problem.containmentHierarchies.head.containmentRelations.toSet
 	}
-	
-	public static def <X> x(Iterator<X> p) {
+
+	static def <X> x(Iterator<X> p) {
 		p.toIterable
 	}
 }

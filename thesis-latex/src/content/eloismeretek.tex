@@ -1,8 +1,15 @@
 \chapter{Előismeretek}
 
+\section{Szakterület-specifikus nyelvek}
+Egy szakterület-specifikus nyelv (Domain Specific Language, DSL)
+
+\subsection{Yakindu}
+
 \section{Metamodell}
 
 Egy szakterület-specifikus nyelvet (Domain Specific Language, DSL) tipikusan egy metamodell (MM) és a hozzá tartozó jólformáltsági kényszerek (Well-Formedness Constraints, WF) adnak meg. A metamodell specifikálja a modell alapstruktúráját, továbbá meghatározza a címkézett gráf  éleinek illetve csúcsainak lehetséges típusait. A jólformáltásgi kényszerek tervezési szabályok hozzáadásával ezt tovább szűkítik.
+
+Egy metamodell meghatározza egy modellezési nyelv legfőbb típusait, referenciáit, attribútumait és alapvető struktúráját. Formálisan a metamodell által meghatározott szignatúra a következő:
 
 \begin{definition}[Szignatúra]
 Szignatúra alatt egy olyan $\Sigma = \langle\mathit{C}, \mathit{R}, \mathit{A}, \mathit{E}, \mathit{L}\rangle$ struktúrát értünk, ahol $C = \{C_1, \ldots, C_i\}$ unáris típus predikátumokat, $R = \{R_1, \ldots, R_j\}$ bináris referencia predikátumokat, $A = \{A_1, \ldots, A_k\}$ bináris attribútum predikátumokat, $E = \{E_1, \ldots, E_l\}$ unáris enumeráció (felsorolható típus) predikátumokat és $L = \{L_1, \ldots, L_m\}$ az enumerációkat alkotó literálokat jelölnek.
@@ -13,37 +20,41 @@ Szignatúra alatt egy olyan $\Sigma = \langle\mathit{C}, \mathit{R}, \mathit{A},
 % \end{definition}
 
 \begin{definition}[Metamodell]
-Egy metamodell meghatározza egy modellezési nyelv legfőbb típusait, referenciáit, attribútumait és alapvető struktúráját. Formálisan: a metamodell meghatároz egy $\Sigma = \langle\mathit{C}, \mathit{R}, \mathit{A}, \mathit{E}, \mathit{L}\rangle$ szignatúrát, az $E = \{E_1, \ldots, E_l\}$ enumerációkhoz tartozó literálokat és az alábbi strukturális kényszereket:
+Az $MM$ metamodell meghatároz egy $\Sigma_{MM} = \langle\mathit{C}, \mathit{R}, \mathit{A}, \mathit{E}, \mathit{L}\rangle$ szignatúrát, az $E = \{E_1, \ldots, E_l\}$ enumerációkhoz tartozó literálokat és további strukturális kényszereket:
+
 \begin{itemize}
-  \item $ \mathit{\textbf{MUL}}^\mathit{up}:  \{R_1, \ldots, R_j \} \rightarrow \mathbb{N}^+ \cup  \{*\} $ \\
+  \item[--] $ \mathit{\textbf{MUL}}^\mathit{up}:  \{R_1, \ldots, R_j \} \rightarrow \mathbb{N}^+ \cup  \{*\} $ \\
   	Felső számosság (Upper Multiplicity): egy felső korlátot szab meg a referencia számosságát illetően, azaz megadja, hány ilyen referencia-példány lehet két osztály között.
   	A $ * $ jelölés korlátlan felső határt jelent.
 
   
-  \item $ \mathit{\textbf{MUL}}^\mathit{low}:  \{R_1, \ldots, R_j \} \rightarrow \mathbb{N} $ \\
+  \item[--] $ \mathit{\textbf{MUL}}^\mathit{low}:  \{R_1, \ldots, R_j \} \rightarrow \mathbb{N} $ \\
   Alsó számosság (Lower Multiplicity): egy alsó korlátot szab meg a referencia számosságát illetően.
   
-  \item $ \mathit{\textbf{CON}}: \{R_1, \ldots, R_j \} \rightarrow \{0, 1\} $ \\
+  \item[--] $ \mathit{\textbf{CON}}: \{R_1, \ldots, R_j \} \rightarrow \{0, 1\} $ \\
   	Tartalmazási él (Containment Reference): meghatározzam hogy az adott él tartalmazási él-e.
   	Az EMF példánymodellek szigorú tartalmazási hierarchia szerint épülnek fel, egy irányított fa struktúraként.
 	
-  \item $ \mathit{\textbf{SUP}}: \{C_1, \ldots, C_i\} \times \{C_1, \ldots, C_i\} \rightarrow \{0, 1\} $ \\
+  \item[--] $ \mathit{\textbf{SUP}}: \{C_1, \ldots, C_i\} \times \{C_1, \ldots, C_i\} \rightarrow \{0, 1\} $ \\
 	Ősosztály (Superclass): általánosítás meglétét adja meg két osztály között: egy konkrétabb (gyerek) osztály rendelkezik az általánosabb (szülő) osztály minden tulajdonságával.
-	\todo{"öröklés, leszármazás"  definiálása?},
+	\todo[inline]{"öröklés, leszármazás"  definiálása?},
 	Az EMF-ben támogatott a többszörös öröklés, de ezek az osztályok nem képezhetnek hurkot.
-  \item $ \mathit{\textbf{ABS}}: \{C_1, \ldots, C_i \} \rightarrow \{0, 1\} $ \\
+  \item[--] $ \mathit{\textbf{ABS}}: \{C_1, \ldots, C_i \} \rightarrow \{0, 1\} $ \\
 	Absztrakció: meghatározza, hogy az adott osztály absztrakt-e. Az absztrakt osztályok nem példányosíthatók, a belőlük leszármaztatott nem-absztrakt osztályok viszont igen.
 
-  \item $ \mathit{\textbf{INV}}: \{R_1, \ldots, R_j \} \times \{R_1, \ldots, R_j\} \rightarrow \{0, 1\} $
-  \item $ \mathit{\textbf{TCR}}^\mathit{src}: \{R_1, \ldots, R_j \} \rightarrow \{C_1, \ldots, C_i\} $  
-  \item $ \mathit{\textbf{TCR}}^\mathit{trg}: \{R_1, \ldots, R_j \} \rightarrow \{C_1, \ldots, C_i\} $
-  \item $ \mathit{\textbf{TCA}}^\mathit{src}: \{A_1, \ldots, A_k\} \rightarrow \{C_1, \ldots, C_i\} $
-  \item $ \mathit{\textbf{TCA}}^\mathit{trg}: \{A_1, \ldots, A_k\} \rightarrow \{\mathit{Int, String, Real, Boolean, Literal}\}$
+  \item[--] $ \mathit{\textbf{INV}}: \{R_1, \ldots, R_j \} \times \{R_1, \ldots, R_j\} \rightarrow \{0, 1\} $
+  \item[--] $ \mathit{\textbf{SRC}}^\mathit{src}: \{R_1, \ldots, R_j \} \rightarrow \{C_1, \ldots, C_i\} $  
+  \item[--] $ \mathit{\textbf{TRG}}^\mathit{trg}: \{R_1, \ldots, R_j \} \rightarrow \{C_1, \ldots, C_i\} $
+
 
  
 \end{itemize}
 
 \end{definition}
+
+\subsection{Eclipse Modeling Framework (EMF)}
+
+
 
 
 \section{Példánymodell}
@@ -64,3 +75,12 @@ Ezek a modellek még befejezetlenek, olyan elemek is megjelennek bennük, amikne
 \begin{definition}[Parciális modell]
 Parciális modell alatt egy olyan logikai struktúrát értünk, ahol\ldots
 \end{definition}
+
+\todo{refinement}
+
+\section{Modellgenerálás}
+\todo[inline]{ viatraSOLVER }
+\cite{VS:GraphSolver}
+
+\section{Gráfmetrikák}
+\subsection{Fokszám}

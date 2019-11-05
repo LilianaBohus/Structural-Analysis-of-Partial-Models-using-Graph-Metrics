@@ -20,12 +20,11 @@ public class StatisticsService {
 	private static final String FILE_NAME = "typeStatistics";
 	private static final String SEPARATOR = ",";
 	private static final int NUMBER_OF_STATECHARTS = 300;
+	private List<String> labels = createSortedLabelList();
 	
 	public void createStatistics() throws IOException {
 		BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME + ".csv"));
 		
-		// TODO szétszedéskor elveszhetnek labelek
-		List<String> labels = createSortedLabelList();
 		writer.write(createLabelRow(labels));
 		writer.newLine();
 
