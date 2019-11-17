@@ -52,38 +52,36 @@ class ModelLoader {
 		Resource.Factory.Registry.INSTANCE.extensionToFactoryMap.put("xmi", new XMIResourceFactoryImpl)
 
 		val statistics = new StatisticsService
-		statistics.createStatistics
+		
 
 		val loader = new ModelLoader
-		val modelinstancesURI = "instancemodels/ICSE2020-InstanceModels/yakindumm/human/humanInput100/run1/"
+		val MODEL_INSTANCES_URI = "instancemodels/ICSE2020-InstanceModels/yakindumm/human/humanInput100/run1/"
+		val NUMBER_OF_STATECHARTS = 300;
 		val random = new Random()
 
-		// ciklusba:
-		val model = loader.loadModel(modelinstancesURI + 1 + ".xmi")
+		for (i : 1 .. NUMBER_OF_STATECHARTS){
+		val model = loader.loadModel(MODEL_INSTANCES_URI + i + ".xmi")
 		val partialmodel = loader.model2PartialModel(model)
 
 		var abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
 
-		var i = 0;
+		var abstractionCounter = 0;
 		while (!abstractionoperations.isEmpty) {
+			print("started")
+			//statistics.createStatistics(i, 1, 1,  );
+			// partialmodel.partialtypeinterpratation.filter(PartialComplexTypeInterpretation).forEach[println('''«it.interpretationOf.name» = «it.elements.size»''')]
+			statistics.appendStatistics(i, 1, abstractionCounter, partialmodel)
 			val randomNumber = random.nextInt(abstractionoperations.size)
 			abstractionoperations.get(randomNumber).execute
-//			println("Executed " + randomNumber)
 			abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
-			i++;
+			abstractionCounter++;
 		}
-		
-//		for(element : partialmodel.newElements){
-//			println(partialmodel.partialtypeinterpratation
-//				.filter(PartialComplexTypeInterpretation)
-//				.filter[it.elements.contains(element)]
-//				.map[it.interpretationOf.name].toList)
-//		}
-		println(i)
+		println(i + ": " +abstractionCounter)
+		}
 	}
 
 	def collectAbstractionOperations(PartialInterpretation partialmodel, ModelLoader loader) {
-	val containmentRelations = loader.getContainmentRelations(partialmodel)
+		val containmentRelations = loader.getContainmentRelations(partialmodel)
 		val inverseRelations = partialmodel.problem.annotations.filter(InverseRelationAssertion)
 
 		val inverseMap = new HashMap
@@ -105,14 +103,13 @@ class ModelLoader {
 						].head
 						removableRelationLinks += new RelationAbstraction(relation, element, inverseType, inverseLink)
 						inverseCount++;
-					} 
-					 // removableRelationLinks += new RelationAbstraction(relation, element)
+					}
+				// removableRelationLinks += new RelationAbstraction(relation, element)
 				}
 			}
 		}
 //		println("Number of removable relationlinks: " + removableRelationLinks.size)
 //		println("Has inverse: " + inverseCount)
-
 		// no incoming, except one containment
 		// no outgoing, except one container
 		val removableNodes = new LinkedList
