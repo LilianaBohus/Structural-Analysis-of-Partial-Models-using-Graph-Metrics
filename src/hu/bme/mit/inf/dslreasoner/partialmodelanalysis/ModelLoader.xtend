@@ -10,15 +10,17 @@ import hu.bme.mit.inf.dslreasoner.logic.model.builder.DocumentationLevel
 import hu.bme.mit.inf.dslreasoner.logic.model.builder.TracedOutput
 import hu.bme.mit.inf.dslreasoner.logic.model.logicproblem.LogicProblem
 import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.RelationAbstraction
-import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstractionfilter.RelationAbstractionOperationFilter
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethod
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethodProvider
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ScopePropagator
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.TypeInferenceMethod
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretation2logic.InstanceModel2PartialInterpretation
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.BinaryElementRelationLink
+import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialComplexTypeInterpretation
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialInterpretation
+import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialRelationInterpretation
 import java.util.HashMap
+import java.util.Iterator
 import java.util.LinkedList
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EClass
@@ -31,9 +33,8 @@ import org.eclipse.viatra.query.runtime.api.ViatraQueryEngine
 import org.eclipse.viatra.query.runtime.api.ViatraQueryMatcher
 import org.eclipse.viatra.query.runtime.emf.EMFScope
 import org.eclipse.viatra.query.runtime.rete.matcher.ReteEngine
-import java.util.Iterator
+import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstractionfilter.NodeAbstractionOperationFilter
 import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.NodeAbstraction
-import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialComplexTypeInterpretation
 
 class ModelLoader {
 	val ecore2Logic = new Ecore2Logic
@@ -94,7 +95,7 @@ class ModelLoader {
 		println("Number of removable relationlinks: " + removableRelationLinks.size)
 		println("Has inverse: " + inverseCount)
 
-//		 removableRelationLinks.forEach[x | x.execute]
+		removableRelationLinks.forEach[x|x.execute]
 
 		val removableNodes = new LinkedList
 //		for (relation : partialmodel.partialrelationinterpretation) {
@@ -108,14 +109,53 @@ class ModelLoader {
 //			}
 //		}
 //		println("Number of removable nodes: " + removableNodes.size)
-
+		// no incoming, except one containment
+		// no outgoing, except one container
+		val cr = partialmodel.partialrelationinterpretation.filter[containmentRelations.contains(it.interpretationOf)]
+		val ncr = partialmodel.partialrelationinterpretation.filter[!containmentRelations.contains(it.interpretationOf)]
 		for (element : partialmodel.newElements) {
+			val incomingContainment = new LinkedList<Pair<PartialRelationInterpretation, BinaryElementRelationLink>>
+			val outgoingContainment = new LinkedList<Pair<PartialRelationInterpretation, BinaryElementRelationLink>>
+			val incomingNonContainment = new LinkedList<Pair<PartialRelationInterpretation, BinaryElementRelationLink>>
+			val outgoingNonContainment = new LinkedList<Pair<PartialRelationInterpretation, BinaryElementRelationLink>>
+			for (r : cr) {
+				val links = r.relationlinks.filter(BinaryElementRelationLink)
+				outgoingContainment.addAll(links.filter[it.param1 === element].map[r -> it])
+				incomingContainment.addAll(links.filter[it.param2 === element].map[r -> it])
+			}
+			for (r : ncr) {
+				val links = r.relationlinks.filter(BinaryElementRelationLink)
+				outgoingNonContainment.addAll(links.filter[it.param1 === element].map[r -> it])
+				incomingNonContainment.addAll(links.filter[it.param2 === element].map[r -> it])
+			}
+
+			if (outgoingContainment.empty && incomingNonContainment.empty) {
+				if (incomingContainment.size > 1) {
+					throw new IllegalArgumentException('Gebasz')
+				} else if (incomingContainment.size == 0) {
+					// this is the root
+				} else { // /incomingContainment.size == 1
+					val incomingOnlyContainment = incomingContainment.head
+					if (outgoingNonContainment.isEmpty) {
+						new NodeAbstraction(incomingOnlyContainment.key, incomingOnlyContainment.value, partialmodel)
+					} else if (outgoingNonContainment.size === 1) {
+						val onlyOutgoingNonContainment = outgoingNonContainment.head
+						val inverseOfIncomingContainment = inverseMap.get(incomingOnlyContainment.key.interpretationOf)
+						if (onlyOutgoingNonContainment.key.interpretationOf === inverseOfIncomingContainment) {
+							new NodeAbstraction(incomingOnlyContainment.key, incomingOnlyContainment.value,
+								partialmodel, onlyOutgoingNonContainment.key, onlyOutgoingNonContainment.value)
+						}
+					}
+				}
+
+			}
+			// val incomingContainment = cr.map[type | type.relationlinks.filter(BinaryElementRelationLink).filter[it.param2 === element].map[type->it]].flatten
+			// incomingContainment
 			// true
 			// false
 			// +1 statechart node
 			println(element.name)
 		}
-
 		val abstractionOperations = removableNodes.toList + removableRelationLinks.toList
 		println("Number of available abstraction operations: " + abstractionOperations.size())
 	}

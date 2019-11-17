@@ -1,7 +1,6 @@
 package hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction;
 
 import hu.bme.mit.inf.dslreasoner.logic.model.logiclanguage.DefinedElement;
-import hu.bme.mit.inf.dslreasoner.logic.model.logiclanguage.TypeReference;
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.BinaryElementRelationLink;
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialInterpretation;
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialRelationInterpretation;
@@ -11,12 +10,13 @@ public class NodeAbstraction extends AbstractionOperation {
 	PartialInterpretation partialmodel;
 	PartialRelationInterpretation relation;
 	BinaryElementRelationLink link;
+	PartialRelationInterpretation inverseRelation;
 	BinaryElementRelationLink inverseLink;
 
 	@Override
 	public void execute() {
 		relation.getRelationlinks().remove(link);
-		relation.getRelationlinks().remove(inverseLink);
+		if(inverseLink != null) { relation.getRelationlinks().remove(inverseLink); }
 		DefinedElement child = link.getParam2();
 		for(PartialTypeInterpratation type : partialmodel.getPartialtypeinterpratation()) {
 			type.getElements().remove(child);
@@ -31,10 +31,11 @@ public class NodeAbstraction extends AbstractionOperation {
 	}
 	
 	// with inverse
-	public NodeAbstraction(PartialRelationInterpretation relation, BinaryElementRelationLink link, PartialInterpretation partialmodel, BinaryElementRelationLink inverse) {
+	public NodeAbstraction(PartialRelationInterpretation relation, BinaryElementRelationLink link, PartialInterpretation partialmodel, PartialRelationInterpretation inverseRelation, BinaryElementRelationLink inverse) {
 		this.relation = relation;
 		this.link = link;
 		this.inverseLink = inverse;
+		this.inverseRelation = inverseRelation;
 		this.partialmodel = partialmodel;
 	}
 
