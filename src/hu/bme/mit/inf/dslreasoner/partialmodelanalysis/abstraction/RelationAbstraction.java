@@ -14,7 +14,7 @@ public class RelationAbstraction extends AbstractionOperation {
 		relation.getRelationlinks().remove(link);
 		if (inverseLink != null) {
 			inverseRelation.getRelationlinks().remove(inverseLink);
-			System.out.println(">>> Removing " + link.getParam1().getName() + " <--> " + link.getParam2().getName() + " relation (with inverse)");
+			// System.out.println(">>> Removing " + link.getParam1().getName() + " <--> " + link.getParam2().getName() + " relation (with inverse)");
 		}
 	}
 

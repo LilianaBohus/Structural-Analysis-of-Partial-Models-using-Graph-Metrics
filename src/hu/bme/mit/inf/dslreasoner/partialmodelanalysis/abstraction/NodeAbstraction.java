@@ -15,23 +15,35 @@ public class NodeAbstraction extends AbstractionOperation {
 
 	@Override
 	public void execute() {
-		relation.getRelationlinks().remove(link);
-		if(inverseLink != null) { relation.getRelationlinks().remove(inverseLink); }
+		
+		
+		boolean removed1 = relation.getRelationlinks().remove(link);
+		if(!removed1) throw new IllegalArgumentException("Gebasz1");
+		if (inverseLink != null) {
+			boolean removed2 = inverseRelation.getRelationlinks().remove(inverseLink);
+			if(!removed2) throw new IllegalArgumentException("Gebasz2");
+		}
 		DefinedElement child = link.getParam2();
-		for(PartialTypeInterpratation type : partialmodel.getPartialtypeinterpratation()) {
+		for (PartialTypeInterpratation type : partialmodel.getPartialtypeinterpratation()) {
 			type.getElements().remove(child);
 		}
-		partialmodel.getNewElements().remove(child);
+		boolean r = partialmodel.getNewElements().remove(child);
+		if (!r) throw new IllegalArgumentException("Gebasz3");
+		
+		
 	}
-	
-	public NodeAbstraction(PartialRelationInterpretation relation, BinaryElementRelationLink link, PartialInterpretation partialmodel) {
+
+	public NodeAbstraction(PartialRelationInterpretation relation, BinaryElementRelationLink link,
+			PartialInterpretation partialmodel) {
 		this.relation = relation;
 		this.link = link;
 		this.partialmodel = partialmodel;
 	}
-	
+
 	// with inverse
-	public NodeAbstraction(PartialRelationInterpretation relation, BinaryElementRelationLink link, PartialInterpretation partialmodel, PartialRelationInterpretation inverseRelation, BinaryElementRelationLink inverse) {
+	public NodeAbstraction(PartialRelationInterpretation relation, BinaryElementRelationLink link,
+			PartialInterpretation partialmodel, PartialRelationInterpretation inverseRelation,
+			BinaryElementRelationLink inverse) {
 		this.relation = relation;
 		this.link = link;
 		this.inverseLink = inverse;

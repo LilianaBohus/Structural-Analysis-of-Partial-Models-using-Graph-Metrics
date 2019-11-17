@@ -34,6 +34,7 @@ import org.eclipse.viatra.query.runtime.api.ViatraQueryEngine
 import org.eclipse.viatra.query.runtime.api.ViatraQueryMatcher
 import org.eclipse.viatra.query.runtime.emf.EMFScope
 import org.eclipse.viatra.query.runtime.rete.matcher.ReteEngine
+import java.util.Random
 
 class ModelLoader {
 	val ecore2Logic = new Ecore2Logic
@@ -55,12 +56,32 @@ class ModelLoader {
 
 		val loader = new ModelLoader
 		val modelinstancesURI = "instancemodels/ICSE2020-InstanceModels/yakindumm/human/humanInput100/run1/"
+		val random = new Random()
 
 		// ciklusba:
 		val model = loader.loadModel(modelinstancesURI + 1 + ".xmi")
 		val partialmodel = loader.model2PartialModel(model)
 
-		loader.collectAbstractionOperations(partialmodel, loader);
+		var abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
+
+		var i = 0;
+		while (!abstractionoperations.isEmpty) {
+			val randomNumber = random.nextInt(abstractionoperations.size)
+			abstractionoperations.get(randomNumber).execute
+			println("Executed " + randomNumber)
+			abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
+			i++;
+		}
+		
+		for(element : partialmodel.newElements){
+			println(partialmodel.partialtypeinterpratation
+				.filter(PartialComplexTypeInterpretation)
+				.filter[it.elements.contains(element)]
+				.map[it.interpretationOf.name].toList)
+		}
+		
+		println(i)
+
 	}
 
 	def collectAbstractionOperations(PartialInterpretation partialmodel, ModelLoader loader) {
