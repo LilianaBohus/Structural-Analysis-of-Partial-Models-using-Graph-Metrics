@@ -71,74 +71,53 @@ class ModelLoader {
 			inverseMap.put(inverseRelation.inverseB, inverseRelation.inverseA)
 		}
 
-		val relationFilter = new RelationAbstractionOperationFilter
-		val removableRelations = relationFilter.getRemovableRelations(partialmodel, containmentRelations)
-		println("Number of removable relations: " + removableRelations.size)
-
-		var i = 0;
+		var inverseCount = 0;
 		val removableRelationLinks = new LinkedList
 		for (relation : partialmodel.partialrelationinterpretation) {
 			for (element : relation.relationlinks.filter(BinaryElementRelationLink)) {
 				if (!containmentRelations.contains(relation.interpretationOf)) {
-					if (inverseMap.containsKey(relation.interpretationOf)){
-						val inverseType = partialmodel.partialrelationinterpretation.filter[it.interpretationOf === inverseMap.get(relation.interpretationOf)].head
-						val inverseLink = inverseType.relationlinks.filter(BinaryElementRelationLink)
-						.filter[it.param1 === element.param2 && it.param2 === element.param1].head
-						removableRelationLinks += new RelationAbstraction(
-							relation, element, inverseType, inverseLink)	
-							i++;
+					if (inverseMap.containsKey(relation.interpretationOf)) {
+						val inverseType = partialmodel.partialrelationinterpretation.filter [
+							it.interpretationOf === inverseMap.get(relation.interpretationOf)
+						].head
+						val inverseLink = inverseType.relationlinks.filter(BinaryElementRelationLink).filter [
+							it.param1 === element.param2 && it.param2 === element.param1
+						].head
+						removableRelationLinks += new RelationAbstraction(relation, element, inverseType, inverseLink)
+						inverseCount++;
 					}
 					removableRelationLinks += new RelationAbstraction(relation, element)
 				}
 			}
 		}
-		
+
 		println("Number of removable relationlinks: " + removableRelationLinks.size)
-		println("Has inverse: "+ i)
+		println("Has inverse: " + inverseCount)
+
+//		 removableRelationLinks.forEach[x | x.execute]
 
 		val removableNodes = new LinkedList
-		for (relation : partialmodel.partialrelationinterpretation) {
-			for (element : relation.relationlinks.filter(BinaryElementRelationLink)) {
-				//
-				// TODO: ha nincs belőle kimenő, bemenő él
-				//
-				// if (!containmentRelations.contains(relation.interpretationOf)) {
-				removableNodes += new NodeAbstraction(relation, element, partialmodel)
-			// }
-			}
+//		for (relation : partialmodel.partialrelationinterpretation) {
+//			for (element : relation.relationlinks.filter(BinaryElementRelationLink)) {
+//				//
+//				// TODO: ha nincs belőle kimenő, bemenő él
+//				//
+//				if (!containmentRelations.contains(relation.interpretationOf)) {
+//					removableNodes += new NodeAbstraction(relation, element, partialmodel)
+//				}
+//			}
+//		}
+//		println("Number of removable nodes: " + removableNodes.size)
+
+		for (element : partialmodel.newElements) {
+			// true
+			// false
+			// +1 statechart node
+			println(element.name)
 		}
-		println("Number of removable nodes: " + removableNodes.size)
 
 		val abstractionOperations = removableNodes.toList + removableRelationLinks.toList
-		println(abstractionOperations.size())
-
-		// println(partialmodel.eAllContents.size)
-		// partialmodel.partialrelationinterpretation.remove(removableRelations.get(0))
-		val remainingContent = partialmodel.eAllContents.toSet
-		println("Before: " + remainingContent.size)
-		remainingContent.remove(removableRelations.get(0))
-		println("After: " + remainingContent.size)
-
-//		for (relation : partialmodel.partialrelationinterpretation) {
-//			println(relation.interpretationOf.name + ": " + relation.relationlinks.size)
-//			if (inverseMap.containsKey(relation.interpretationOf)) {
-//				println("--> inverse: " + inverseMap.get(relation.interpretationOf).name)
-//			}
-//			for (element : relation.relationlinks.filter(BinaryElementRelationLink)) {
-//				print(element.param1.name)
-//				if (containmentRelations.contains(relation.interpretationOf)) {
-//					print(" => ")
-//				} else {
-//					print(" -> ")
-//				}
-//				println(element.param2.name)
-//			}
-//
-//		}
-//		for (contents : partialmodel.eAllContents.toIterable){
-//			print(contents)
-//			print("\n")
-//		}
+		println("Number of available abstraction operations: " + abstractionOperations.size())
 	}
 
 	def printNodes(PartialInterpretation partialmodel) {
