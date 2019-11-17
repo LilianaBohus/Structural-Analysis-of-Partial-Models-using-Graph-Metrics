@@ -23,42 +23,36 @@ public class StatisticsService {
 	private static final String FILE_NAME = "typeStatistics";
 	private static final String SEPARATOR = ",";
 	private static final int NUMBER_OF_STATECHARTS = 300;
-	private List<String> labels = createSortedLabelList();
+	private List<String> labels; // = createSortedLabelList();
 	BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME + ".csv"));
 	private int model;
 	private int run;
 	private int step;
 
 	public StatisticsService() throws IOException {
-		writer.write(createLabelRow(labels));
-		writer.newLine();
-
-		System.out.println("-- Labels initialized. --");
+		System.out.println("-- File initialized. --");
 	}
+	
 
 	public void appendStatistics(int model, int run, int step, PartialInterpretation partialmodel) throws IOException {
 		this.model = model;
 		this.run = run;
 		this.step = step;
-		
-		
-		//partialmodel.partialtypeinterpratation.filter(PartialComplexTypeInterpretation).forEach[System.out.println(this.interpretationOf().name + this.elements.size);]
-		
-		for(PartialTypeInterpratation t : partialmodel.getPartialtypeinterpratation()) {
-			if(t instanceof PartialComplexTypeInterpretation) {
+
+		Map<String, Integer> typeToAmount = new HashMap<String, Integer>();
+
+		for (PartialTypeInterpratation t : partialmodel.getPartialtypeinterpratation()) {
+			if (t instanceof PartialComplexTypeInterpretation) {
 				PartialComplexTypeInterpretation ct = (PartialComplexTypeInterpretation) t;
 				String name = ct.getInterpretationOf().getName();
 				int size = ct.getElements().size();
-				System.out.println(name + ": " + size);
+				typeToAmount.put(name, size);
 			}
+			
 		}
-		
-		
-		// Map<String, Integer> statechartTypeToAmount = createTypeToAmountMap(partialmodel);
-		// writer.write(createDataRow(labels, statechartTypeToAmount));
+		System.out.println(typeToAmount);
+		writer.write(createDataRow(labels, typeToAmount));
 		writer.newLine();
-
-		// writer.close();
 	}
 
 	private String createDataRow(List<String> labels, Map<String, Integer> statechartTypeToAmount) {
@@ -89,6 +83,7 @@ public class StatisticsService {
 		});
 		labelBuilder.deleteCharAt(labelBuilder.length() - 1);
 		return labelBuilder.toString();
+		
 	}
 
 //	private Map<String, Integer> createTypeToAmountMap(PartialInterpretation partialmodel) {
@@ -106,18 +101,37 @@ public class StatisticsService {
 //		return typeToAmount;
 //	}
 
-	private List<String> createSortedLabelList() {
-		StatechartLoader loader = new StatechartLoader();
+//	private List<String> createSortedLabelList() {
+//		StatechartLoader loader = new StatechartLoader();
+//		Set<String> labels = new HashSet<String>();
+//		for (int i = 1; i <= NUMBER_OF_STATECHARTS; i++) {
+//			Statechart statechart = loader.loadOne(i);
+//			for (EObject element : IteratorExtensions.toIterable(statechart.eAllContents())) {
+//				labels.add(element.eClass().getName());
+//			}
+//
+//		}
+//		List<String> labelList = new ArrayList<String>(labels);
+//		Collections.sort(labelList);
+//		return labelList;
+//	}
+	
+	public void createSortedLabelList(PartialInterpretation partialmodel) throws IOException {
 		Set<String> labels = new HashSet<String>();
-		for (int i = 1; i <= NUMBER_OF_STATECHARTS; i++) {
-			Statechart statechart = loader.loadOne(i);
-			for (EObject element : IteratorExtensions.toIterable(statechart.eAllContents())) {
-				labels.add(element.eClass().getName());
+		for (PartialTypeInterpratation t : partialmodel.getPartialtypeinterpratation()) {
+			if (t instanceof PartialComplexTypeInterpretation) {
+				PartialComplexTypeInterpretation ct = (PartialComplexTypeInterpretation) t;
+				String name = ct.getInterpretationOf().getName();
+				labels.add(name);
 			}
-
+			
 		}
 		List<String> labelList = new ArrayList<String>(labels);
 		Collections.sort(labelList);
-		return labelList;
+		this.labels = labelList;
+		writer.write(createLabelRow(this.labels));
 	}
+
+
+	
 }

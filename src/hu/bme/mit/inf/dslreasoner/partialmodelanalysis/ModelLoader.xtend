@@ -11,10 +11,10 @@ import hu.bme.mit.inf.dslreasoner.logic.model.builder.TracedOutput
 import hu.bme.mit.inf.dslreasoner.logic.model.logicproblem.LogicProblem
 import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.NodeAbstraction
 import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.RelationAbstraction
-import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethod
-import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethodProvider
-import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ScopePropagator
-import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.TypeInferenceMethod
+//import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethod
+//import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethodProvider
+//import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ScopePropagator
+//import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.TypeInferenceMethod
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretation2logic.InstanceModel2PartialInterpretation
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.BinaryElementRelationLink
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialComplexTypeInterpretation
@@ -38,7 +38,7 @@ import java.util.Random
 
 class ModelLoader {
 	val ecore2Logic = new Ecore2Logic
-	val modelGenerationMethod = new ModelGenerationMethodProvider
+	// val modelGenerationMethod = new ModelGenerationMethodProvider
 
 	def loadModel(String path) {
 		val rs = new ResourceSetImpl
@@ -52,31 +52,32 @@ class ModelLoader {
 		Resource.Factory.Registry.INSTANCE.extensionToFactoryMap.put("xmi", new XMIResourceFactoryImpl)
 
 		val statistics = new StatisticsService
-		
 
 		val loader = new ModelLoader
 		val MODEL_INSTANCES_URI = "instancemodels/ICSE2020-InstanceModels/yakindumm/human/humanInput100/run1/"
 		val NUMBER_OF_STATECHARTS = 300;
-		val random = new Random()
+		val randomSeed = 1;
+		val random = new Random(randomSeed)
 
-		for (i : 1 .. NUMBER_OF_STATECHARTS){
-		val model = loader.loadModel(MODEL_INSTANCES_URI + i + ".xmi")
-		val partialmodel = loader.model2PartialModel(model)
+		for (i : 1 .. 3) {
+			val model = loader.loadModel(MODEL_INSTANCES_URI + i + ".xmi")
+			val partialmodel = loader.model2PartialModel(model)
+			
+			statistics.createSortedLabelList(partialmodel)
 
-		var abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
+			var abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
 
-		var abstractionCounter = 0;
-		while (!abstractionoperations.isEmpty) {
-			print("started")
-			//statistics.createStatistics(i, 1, 1,  );
-			// partialmodel.partialtypeinterpratation.filter(PartialComplexTypeInterpretation).forEach[println('''«it.interpretationOf.name» = «it.elements.size»''')]
-			statistics.appendStatistics(i, 1, abstractionCounter, partialmodel)
-			val randomNumber = random.nextInt(abstractionoperations.size)
-			abstractionoperations.get(randomNumber).execute
-			abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
-			abstractionCounter++;
-		}
-		println(i + ": " +abstractionCounter)
+			println("-- Started abstraction operations. --")
+
+			var abstractionCounter = 0;
+			while (!abstractionoperations.isEmpty) {
+				statistics.appendStatistics(i, randomSeed, abstractionCounter, partialmodel)
+				val randomNumber = random.nextInt(abstractionoperations.size)
+				abstractionoperations.get(randomNumber).execute
+				abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
+				abstractionCounter++;
+			}
+			println(i + ": " + abstractionCounter)
 		}
 	}
 
@@ -192,37 +193,37 @@ class ModelLoader {
 	// partialModel.problemConainer.elements.remove()
 	}
 
-	protected def void createMethod(TracedOutput<LogicProblem, Ecore2Logic_Trace> metamodelProblem,
-		PartialInterpretation partialModel) {
-		val modelGenerationMethod = modelGenerationMethod.createModelGenerationMethod(
-			metamodelProblem.output,
-			partialModel,
-			null,
-			false,
-			TypeInferenceMethod.PreliminaryAnalysis,
-			new ScopePropagator(partialModel),
-			DocumentationLevel.NONE
-		)
-
-		val ViatraQueryEngine engine = ViatraQueryEngine.on(new EMFScope(partialModel))
-		val matchers = new LinkedList
-
-		printPatterns(modelGenerationMethod, matchers, engine)
-	}
-
-	protected def void printPatterns(ModelGenerationMethod modelGenerationMethod,
-		LinkedList<ViatraQueryMatcher<? extends IPatternMatch>> matchers, ViatraQueryEngine engine) {
-		println("\n--- PatternName -> EntitiesInPattern ---")
-		for (p : modelGenerationMethod.allPatterns) {
-			println(p.fullyQualifiedName + "/" + (p.parameters.size + 1))
-			matchers += p.getMatcher(engine)
-		}
-
-		println("\n--- PatternName -> CountMatches ---")
-		for (matcher : matchers) {
-			println('''«matcher.patternName» -> «matcher.countMatches»''')
-		}
-	}
+//	protected def void createMethod(TracedOutput<LogicProblem, Ecore2Logic_Trace> metamodelProblem,
+//		PartialInterpretation partialModel) {
+//		val modelGenerationMethod = modelGenerationMethod.createModelGenerationMethod(
+//			metamodelProblem.output,
+//			partialModel,
+//			null,
+//			false,
+//			TypeInferenceMethod.PreliminaryAnalysis,
+//			new ScopePropagator(partialModel),
+//			DocumentationLevel.NONE
+//		)
+//
+//		val ViatraQueryEngine engine = ViatraQueryEngine.on(new EMFScope(partialModel))
+//		val matchers = new LinkedList
+//
+//		printPatterns(modelGenerationMethod, matchers, engine)
+//	}
+//
+//	protected def void printPatterns(ModelGenerationMethod modelGenerationMethod,
+//		LinkedList<ViatraQueryMatcher<? extends IPatternMatch>> matchers, ViatraQueryEngine engine) {
+//		println("\n--- PatternName -> EntitiesInPattern ---")
+//		for (p : modelGenerationMethod.allPatterns) {
+//			println(p.fullyQualifiedName + "/" + (p.parameters.size + 1))
+//			matchers += p.getMatcher(engine)
+//		}
+//
+//		println("\n--- PatternName -> CountMatches ---")
+//		for (matcher : matchers) {
+//			println('''«matcher.patternName» -> «matcher.countMatches»''')
+//		}
+//	}
 
 	def getContainmentRelations(PartialInterpretation partialmodel) {
 		return partialmodel.problem.containmentHierarchies.head.containmentRelations.toSet
