@@ -7,15 +7,16 @@ import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.par
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialTypeInterpratation;
 
 public class NodeAbstraction extends AbstractionOperation {
-	PartialInterpretation partialmodel;
-	PartialRelationInterpretation relation;
-	BinaryElementRelationLink link;
-	PartialRelationInterpretation inverseRelation;
-	BinaryElementRelationLink inverseLink;
+	PartialInterpretation partialmodel = null;
+	PartialRelationInterpretation relation = null;
+	BinaryElementRelationLink link = null;
+	PartialRelationInterpretation inverseRelation = null;
+	BinaryElementRelationLink inverseLink = null;
 
 	@Override
 	public void execute() {
-		
+		System.out.println("NodeAbstraction " + inverseLink==null);
+
 		
 		boolean removed1 = relation.getRelationlinks().remove(link);
 		if(!removed1) throw new IllegalArgumentException("Gebasz1");

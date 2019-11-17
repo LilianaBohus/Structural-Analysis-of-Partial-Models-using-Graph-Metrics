@@ -68,7 +68,7 @@ class ModelLoader {
 		while (!abstractionoperations.isEmpty) {
 			val randomNumber = random.nextInt(abstractionoperations.size)
 			abstractionoperations.get(randomNumber).execute
-			println("Executed " + randomNumber)
+//			println("Executed " + randomNumber)
 			abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
 			i++;
 		}
@@ -79,19 +79,16 @@ class ModelLoader {
 				.filter[it.elements.contains(element)]
 				.map[it.interpretationOf.name].toList)
 		}
-		
 		println(i)
-
 	}
 
 	def collectAbstractionOperations(PartialInterpretation partialmodel, ModelLoader loader) {
-		val containmentRelations = loader.getContainmentRelations(partialmodel)
+	val containmentRelations = loader.getContainmentRelations(partialmodel)
 		val inverseRelations = partialmodel.problem.annotations.filter(InverseRelationAssertion)
 
 		val inverseMap = new HashMap
 		for (inverseRelation : inverseRelations) {
 			inverseMap.put(inverseRelation.inverseA, inverseRelation.inverseB)
-			inverseMap.put(inverseRelation.inverseB, inverseRelation.inverseA)
 		}
 
 		var inverseCount = 0;
@@ -108,14 +105,13 @@ class ModelLoader {
 						].head
 						removableRelationLinks += new RelationAbstraction(relation, element, inverseType, inverseLink)
 						inverseCount++;
-					}
-					removableRelationLinks += new RelationAbstraction(relation, element)
+					} 
+					 // removableRelationLinks += new RelationAbstraction(relation, element)
 				}
 			}
 		}
-
-		println("Number of removable relationlinks: " + removableRelationLinks.size)
-		println("Has inverse: " + inverseCount)
+//		println("Number of removable relationlinks: " + removableRelationLinks.size)
+//		println("Has inverse: " + inverseCount)
 
 		// no incoming, except one containment
 		// no outgoing, except one container
@@ -161,9 +157,9 @@ class ModelLoader {
 				}
 			}
 		}
-		println("Number of removable nodes: " + removableNodes.size)
+//		println("Number of removable nodes: " + removableNodes.size)
 		val abstractionOperations = removableNodes.toList + removableRelationLinks.toList
-		println("Number of available abstraction operations: " + abstractionOperations.size())
+//		println("Number of available abstraction operations: " + abstractionOperations.size())
 		return abstractionOperations
 	}
 
