@@ -73,12 +73,12 @@ class ModelLoader {
 			i++;
 		}
 		
-		for(element : partialmodel.newElements){
-			println(partialmodel.partialtypeinterpratation
-				.filter(PartialComplexTypeInterpretation)
-				.filter[it.elements.contains(element)]
-				.map[it.interpretationOf.name].toList)
-		}
+//		for(element : partialmodel.newElements){
+//			println(partialmodel.partialtypeinterpratation
+//				.filter(PartialComplexTypeInterpretation)
+//				.filter[it.elements.contains(element)]
+//				.map[it.interpretationOf.name].toList)
+//		}
 		println(i)
 	}
 

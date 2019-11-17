@@ -15,23 +15,15 @@ public class NodeAbstraction extends AbstractionOperation {
 
 	@Override
 	public void execute() {
-		System.out.println("NodeAbstraction " + inverseLink==null);
-
-		
-		boolean removed1 = relation.getRelationlinks().remove(link);
-		if(!removed1) throw new IllegalArgumentException("Gebasz1");
+		relation.getRelationlinks().remove(link);
 		if (inverseLink != null) {
-			boolean removed2 = inverseRelation.getRelationlinks().remove(inverseLink);
-			if(!removed2) throw new IllegalArgumentException("Gebasz2");
+			inverseRelation.getRelationlinks().remove(inverseLink);
 		}
 		DefinedElement child = link.getParam2();
 		for (PartialTypeInterpratation type : partialmodel.getPartialtypeinterpratation()) {
 			type.getElements().remove(child);
 		}
-		boolean r = partialmodel.getNewElements().remove(child);
-		if (!r) throw new IllegalArgumentException("Gebasz3");
-		
-		
+		partialmodel.getNewElements().remove(child);	
 	}
 
 	public NodeAbstraction(PartialRelationInterpretation relation, BinaryElementRelationLink link,
