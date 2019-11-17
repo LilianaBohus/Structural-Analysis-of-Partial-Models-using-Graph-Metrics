@@ -9,6 +9,7 @@ import hu.bme.mit.inf.dslreasoner.ecore2logic.ecore2logicannotations.InverseRela
 import hu.bme.mit.inf.dslreasoner.logic.model.builder.DocumentationLevel
 import hu.bme.mit.inf.dslreasoner.logic.model.builder.TracedOutput
 import hu.bme.mit.inf.dslreasoner.logic.model.logicproblem.LogicProblem
+import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.NodeAbstraction
 import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.RelationAbstraction
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethod
 import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethodProvider
@@ -33,8 +34,6 @@ import org.eclipse.viatra.query.runtime.api.ViatraQueryEngine
 import org.eclipse.viatra.query.runtime.api.ViatraQueryMatcher
 import org.eclipse.viatra.query.runtime.emf.EMFScope
 import org.eclipse.viatra.query.runtime.rete.matcher.ReteEngine
-import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstractionfilter.NodeAbstractionOperationFilter
-import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.NodeAbstraction
 
 class ModelLoader {
 	val ecore2Logic = new Ecore2Logic
@@ -61,8 +60,10 @@ class ModelLoader {
 		val model = loader.loadModel(modelinstancesURI + 1 + ".xmi")
 		val partialmodel = loader.model2PartialModel(model)
 
-		// loader.printNodes(partialmodel)
-		// loader.printNodesByType(partialmodel)
+		loader.collectAbstractionOperations(partialmodel, loader);
+	}
+
+	def collectAbstractionOperations(PartialInterpretation partialmodel, ModelLoader loader) {
 		val containmentRelations = loader.getContainmentRelations(partialmodel)
 		val inverseRelations = partialmodel.problem.annotations.filter(InverseRelationAssertion)
 
@@ -95,22 +96,9 @@ class ModelLoader {
 		println("Number of removable relationlinks: " + removableRelationLinks.size)
 		println("Has inverse: " + inverseCount)
 
-		removableRelationLinks.forEach[x|x.execute]
-
-		val removableNodes = new LinkedList
-//		for (relation : partialmodel.partialrelationinterpretation) {
-//			for (element : relation.relationlinks.filter(BinaryElementRelationLink)) {
-//				//
-//				// TODO: ha nincs belőle kimenő, bemenő él
-//				//
-//				if (!containmentRelations.contains(relation.interpretationOf)) {
-//					removableNodes += new NodeAbstraction(relation, element, partialmodel)
-//				}
-//			}
-//		}
-//		println("Number of removable nodes: " + removableNodes.size)
 		// no incoming, except one containment
 		// no outgoing, except one container
+		val removableNodes = new LinkedList
 		val cr = partialmodel.partialrelationinterpretation.filter[containmentRelations.contains(it.interpretationOf)]
 		val ncr = partialmodel.partialrelationinterpretation.filter[!containmentRelations.contains(it.interpretationOf)]
 		for (element : partialmodel.newElements) {
@@ -137,33 +125,25 @@ class ModelLoader {
 				} else { // /incomingContainment.size == 1
 					val incomingOnlyContainment = incomingContainment.head
 					if (outgoingNonContainment.isEmpty) {
-						new NodeAbstraction(incomingOnlyContainment.key, incomingOnlyContainment.value, partialmodel)
+						removableNodes +=
+							new NodeAbstraction(incomingOnlyContainment.key, incomingOnlyContainment.value,
+								partialmodel)
 					} else if (outgoingNonContainment.size === 1) {
 						val onlyOutgoingNonContainment = outgoingNonContainment.head
 						val inverseOfIncomingContainment = inverseMap.get(incomingOnlyContainment.key.interpretationOf)
 						if (onlyOutgoingNonContainment.key.interpretationOf === inverseOfIncomingContainment) {
-							new NodeAbstraction(incomingOnlyContainment.key, incomingOnlyContainment.value,
-								partialmodel, onlyOutgoingNonContainment.key, onlyOutgoingNonContainment.value)
+							removableNodes +=
+								new NodeAbstraction(incomingOnlyContainment.key, incomingOnlyContainment.value,
+									partialmodel, onlyOutgoingNonContainment.key, onlyOutgoingNonContainment.value)
 						}
 					}
 				}
-
 			}
-			// val incomingContainment = cr.map[type | type.relationlinks.filter(BinaryElementRelationLink).filter[it.param2 === element].map[type->it]].flatten
-			// incomingContainment
-			// true
-			// false
-			// +1 statechart node
-			println(element.name)
 		}
+		println("Number of removable nodes: " + removableNodes.size)
 		val abstractionOperations = removableNodes.toList + removableRelationLinks.toList
 		println("Number of available abstraction operations: " + abstractionOperations.size())
-	}
-
-	def printNodes(PartialInterpretation partialmodel) {
-		for (element : partialmodel.newElements) {
-			println(element.name)
-		}
+		return abstractionOperations
 	}
 
 	def printNodesByType(PartialInterpretation partialmodel) {
