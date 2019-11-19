@@ -22,7 +22,6 @@ import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.par
 public class StatisticsService {
 	private static final String FILE_NAME = "typeStatistics";
 	private static final String SEPARATOR = ",";
-	private static final int NUMBER_OF_STATECHARTS = 300;
 	private List<String> labels; // = createSortedLabelList();
 	BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME + ".csv"));
 	private int model;
@@ -32,7 +31,6 @@ public class StatisticsService {
 	public StatisticsService() throws IOException {
 		System.out.println("-- File initialized. --");
 	}
-	
 
 	public void appendStatistics(int model, int run, int step, PartialInterpretation partialmodel) throws IOException {
 		this.model = model;
@@ -48,11 +46,11 @@ public class StatisticsService {
 				int size = ct.getElements().size();
 				typeToAmount.put(name, size);
 			}
-			
 		}
 		System.out.println(typeToAmount);
 		writer.write(createDataRow(labels, typeToAmount));
 		writer.newLine();
+		writer.flush();
 	}
 
 	private String createDataRow(List<String> labels, Map<String, Integer> statechartTypeToAmount) {
@@ -83,39 +81,8 @@ public class StatisticsService {
 		});
 		labelBuilder.deleteCharAt(labelBuilder.length() - 1);
 		return labelBuilder.toString();
-		
 	}
 
-//	private Map<String, Integer> createTypeToAmountMap(PartialInterpretation partialmodel) {
-////		StatechartLoader loader = new StatechartLoader();
-////		Statechart statechart = loader.loadOne(index);
-//		Map<String, Integer> typeToAmount = new HashMap<String, Integer>();
-//		for (EObject element : IteratorExtensions.toIterable(statechart.eAllContents())) {
-//			String key = element.eClass().getName();
-//			if (typeToAmount.containsKey(key)) {
-//				typeToAmount.put(key, typeToAmount.get(key) + 1);
-//			} else {
-//				typeToAmount.put(key, 1);
-//			}
-//		}
-//		return typeToAmount;
-//	}
-
-//	private List<String> createSortedLabelList() {
-//		StatechartLoader loader = new StatechartLoader();
-//		Set<String> labels = new HashSet<String>();
-//		for (int i = 1; i <= NUMBER_OF_STATECHARTS; i++) {
-//			Statechart statechart = loader.loadOne(i);
-//			for (EObject element : IteratorExtensions.toIterable(statechart.eAllContents())) {
-//				labels.add(element.eClass().getName());
-//			}
-//
-//		}
-//		List<String> labelList = new ArrayList<String>(labels);
-//		Collections.sort(labelList);
-//		return labelList;
-//	}
-	
 	public void createSortedLabelList(PartialInterpretation partialmodel) throws IOException {
 		Set<String> labels = new HashSet<String>();
 		for (PartialTypeInterpratation t : partialmodel.getPartialtypeinterpratation()) {
@@ -124,14 +91,13 @@ public class StatisticsService {
 				String name = ct.getInterpretationOf().getName();
 				labels.add(name);
 			}
-			
+
 		}
 		List<String> labelList = new ArrayList<String>(labels);
 		Collections.sort(labelList);
 		this.labels = labelList;
 		writer.write(createLabelRow(this.labels));
+		writer.newLine();
 	}
 
-
-	
 }

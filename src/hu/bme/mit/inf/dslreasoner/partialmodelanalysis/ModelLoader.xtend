@@ -59,7 +59,7 @@ class ModelLoader {
 		val randomSeed = 1;
 		val random = new Random(randomSeed)
 
-		for (i : 1 .. 3) {
+		for (i : 1 ..10) {
 			val model = loader.loadModel(MODEL_INSTANCES_URI + i + ".xmi")
 			val partialmodel = loader.model2PartialModel(model)
 			
@@ -77,7 +77,7 @@ class ModelLoader {
 				abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
 				abstractionCounter++;
 			}
-			println(i + ": " + abstractionCounter)
+			println("-- Model number "+ i + " abstraction complete, steps: " + abstractionCounter + " --")
 		}
 	}
 
