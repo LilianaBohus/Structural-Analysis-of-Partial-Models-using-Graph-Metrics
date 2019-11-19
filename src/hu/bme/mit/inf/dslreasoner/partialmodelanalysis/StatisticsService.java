@@ -20,7 +20,7 @@ import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.par
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialTypeInterpratation;
 
 public class StatisticsService {
-	private static final String FILE_NAME = "typeStatistics";
+	private static final String FILE_NAME = "typeStatistics_AllSeed";
 	private static final String SEPARATOR = ",";
 	private List<String> labels; // = createSortedLabelList();
 	BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME + ".csv"));
@@ -47,7 +47,6 @@ public class StatisticsService {
 				typeToAmount.put(name, size);
 			}
 		}
-		System.out.println(typeToAmount);
 		writer.write(createDataRow(labels, typeToAmount));
 		writer.newLine();
 		writer.flush();

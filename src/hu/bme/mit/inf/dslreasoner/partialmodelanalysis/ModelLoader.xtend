@@ -56,28 +56,33 @@ class ModelLoader {
 		val loader = new ModelLoader
 		val MODEL_INSTANCES_URI = "instancemodels/ICSE2020-InstanceModels/yakindumm/human/humanInput100/run1/"
 		val NUMBER_OF_STATECHARTS = 300;
-		val randomSeed = 1;
-		val random = new Random(randomSeed)
+		val NUMBER_OF_RANDOM_SEEDS = 50;
 
-		for (i : 1 ..10) {
-			val model = loader.loadModel(MODEL_INSTANCES_URI + i + ".xmi")
-			val partialmodel = loader.model2PartialModel(model)
-			
-			statistics.createSortedLabelList(partialmodel)
+		var firstRun = true;
 
-			var abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
+		for (seedNumber : 1 .. NUMBER_OF_RANDOM_SEEDS) {
+			val random = new Random(seedNumber)
+			for (modelNumber : 1 .. NUMBER_OF_STATECHARTS) {
+				val model = loader.loadModel(MODEL_INSTANCES_URI + modelNumber + ".xmi")
+				val partialmodel = loader.model2PartialModel(model)
 
-			println("-- Started abstraction operations. --")
+				if (firstRun) {
+					statistics.createSortedLabelList(partialmodel)
+					firstRun = false;
+				}
 
-			var abstractionCounter = 0;
-			while (!abstractionoperations.isEmpty) {
-				statistics.appendStatistics(i, randomSeed, abstractionCounter, partialmodel)
-				val randomNumber = random.nextInt(abstractionoperations.size)
-				abstractionoperations.get(randomNumber).execute
-				abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
-				abstractionCounter++;
+				var abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
+				var abstractionCounter = 0;
+				while (!abstractionoperations.isEmpty) {
+					statistics.appendStatistics(modelNumber, seedNumber, abstractionCounter, partialmodel)
+					val randomNumber = random.nextInt(abstractionoperations.size)
+					abstractionoperations.get(randomNumber).execute
+					abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
+					abstractionCounter++;
+				}
+				println("-- Model " + modelNumber + ", seed: " + seedNumber + ", total steps: " + abstractionCounter +
+					" --")
 			}
-			println("-- Model number "+ i + " abstraction complete, steps: " + abstractionCounter + " --")
 		}
 	}
 
@@ -110,7 +115,6 @@ class ModelLoader {
 		}
 //		println("Number of removable relationlinks: " + removableRelationLinks.size)
 //		println("Has inverse: " + inverseCount)
-
 		// no incoming, except one containment
 		// no outgoing, except one container
 		val removableNodes = new LinkedList
