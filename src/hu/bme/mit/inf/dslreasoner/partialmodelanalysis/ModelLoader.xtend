@@ -11,10 +11,10 @@ import hu.bme.mit.inf.dslreasoner.logic.model.builder.TracedOutput
 import hu.bme.mit.inf.dslreasoner.logic.model.logicproblem.LogicProblem
 import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.NodeAbstraction
 import hu.bme.mit.inf.dslreasoner.partialmodelanalysis.abstraction.RelationAbstraction
-//import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethod
-//import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethodProvider
-//import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ScopePropagator
-//import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.TypeInferenceMethod
+import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethod
+import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ModelGenerationMethodProvider
+import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.ScopePropagator
+import hu.bme.mit.inf.dslreasoner.viatrasolver.logic2viatra.TypeInferenceMethod
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretation2logic.InstanceModel2PartialInterpretation
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.BinaryElementRelationLink
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialComplexTypeInterpretation
@@ -38,7 +38,7 @@ import java.util.Random
 
 class ModelLoader {
 	val ecore2Logic = new Ecore2Logic
-	// val modelGenerationMethod = new ModelGenerationMethodProvider
+	val modelGenerationMethod = new ModelGenerationMethodProvider
 
 	def loadModel(String path) {
 		val rs = new ResourceSetImpl
@@ -105,12 +105,12 @@ class ModelLoader {
 						removableRelationLinks += new RelationAbstraction(relation, element, inverseType, inverseLink)
 						inverseCount++;
 					}
-				// removableRelationLinks += new RelationAbstraction(relation, element)
 				}
 			}
 		}
 //		println("Number of removable relationlinks: " + removableRelationLinks.size)
 //		println("Has inverse: " + inverseCount)
+
 		// no incoming, except one containment
 		// no outgoing, except one container
 		val removableNodes = new LinkedList
@@ -193,37 +193,37 @@ class ModelLoader {
 	// partialModel.problemConainer.elements.remove()
 	}
 
-//	protected def void createMethod(TracedOutput<LogicProblem, Ecore2Logic_Trace> metamodelProblem,
-//		PartialInterpretation partialModel) {
-//		val modelGenerationMethod = modelGenerationMethod.createModelGenerationMethod(
-//			metamodelProblem.output,
-//			partialModel,
-//			null,
-//			false,
-//			TypeInferenceMethod.PreliminaryAnalysis,
-//			new ScopePropagator(partialModel),
-//			DocumentationLevel.NONE
-//		)
-//
-//		val ViatraQueryEngine engine = ViatraQueryEngine.on(new EMFScope(partialModel))
-//		val matchers = new LinkedList
-//
-//		printPatterns(modelGenerationMethod, matchers, engine)
-//	}
-//
-//	protected def void printPatterns(ModelGenerationMethod modelGenerationMethod,
-//		LinkedList<ViatraQueryMatcher<? extends IPatternMatch>> matchers, ViatraQueryEngine engine) {
-//		println("\n--- PatternName -> EntitiesInPattern ---")
-//		for (p : modelGenerationMethod.allPatterns) {
-//			println(p.fullyQualifiedName + "/" + (p.parameters.size + 1))
-//			matchers += p.getMatcher(engine)
-//		}
-//
-//		println("\n--- PatternName -> CountMatches ---")
-//		for (matcher : matchers) {
-//			println('''«matcher.patternName» -> «matcher.countMatches»''')
-//		}
-//	}
+	protected def void createMethod(TracedOutput<LogicProblem, Ecore2Logic_Trace> metamodelProblem,
+		PartialInterpretation partialModel) {
+		val modelGenerationMethod = modelGenerationMethod.createModelGenerationMethod(
+			metamodelProblem.output,
+			partialModel,
+			null,
+			false,
+			TypeInferenceMethod.PreliminaryAnalysis,
+			new ScopePropagator(partialModel),
+			DocumentationLevel.NONE
+		)
+
+		val ViatraQueryEngine engine = ViatraQueryEngine.on(new EMFScope(partialModel))
+		val matchers = new LinkedList
+
+		printPatterns(modelGenerationMethod, matchers, engine)
+	}
+
+	protected def void printPatterns(ModelGenerationMethod modelGenerationMethod,
+		LinkedList<ViatraQueryMatcher<? extends IPatternMatch>> matchers, ViatraQueryEngine engine) {
+		println("\n--- PatternName -> EntitiesInPattern ---")
+		for (p : modelGenerationMethod.allPatterns) {
+			println(p.fullyQualifiedName + "/" + (p.parameters.size + 1))
+			matchers += p.getMatcher(engine)
+		}
+
+		println("\n--- PatternName -> CountMatches ---")
+		for (matcher : matchers) {
+			println('''«matcher.patternName» -> «matcher.countMatches»''')
+		}
+	}
 
 	def getContainmentRelations(PartialInterpretation partialmodel) {
 		return partialmodel.problem.containmentHierarchies.head.containmentRelations.toSet
