@@ -11,10 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.xbase.lib.IteratorExtensions;
-
-import hu.bme.mit.inf.dslreasoner.domains.yakindu.sgraph.yakindumm.Statechart;
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialComplexTypeInterpretation;
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialInterpretation;
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialTypeInterpratation;
@@ -22,7 +18,7 @@ import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.par
 public class StatisticsService {
 	private static final String FILE_NAME = "typeStatistics_AllSeed";
 	private static final String SEPARATOR = ",";
-	private List<String> labels; // = createSortedLabelList();
+	private List<String> labels;
 	BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME + ".csv"));
 	private int model;
 	private int run;
