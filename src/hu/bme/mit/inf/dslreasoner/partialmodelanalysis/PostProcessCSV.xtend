@@ -16,6 +16,7 @@ class PostProcessCSV {
 		val model2Step = modelToStep(modelIDs,res);
 		println('''steps sizes determined''')
 		percentagesOfTypes(res,modelIDs,model2Step)
+		
 	}
 	
 	def static loadFile(String path) {
@@ -31,8 +32,11 @@ class PostProcessCSV {
 		return res
 	}
 	
+	def static header(String name) {
+		'''low-«name», median-«name», high-«name»'''
+	}
 	def static percentagesOfTypes(LinkedList<Line> data, List<Integer> modelIDs, Map<Integer, Integer> model2MaxStep) {
-		println('''model,percentage,classes...''')
+		println('''model,percentage,«header("Choice")»,«header("Entry")»,«header("Exit")»,«header("Region")»,«header("State")»,«header("Statechart")»,«header("Transition")»''')
 		for(model : modelIDs) {
 			val dataWithModel = data.filter[it.model == model].toList
 			val int maxSteps = 100
@@ -44,25 +48,29 @@ class PostProcessCSV {
 				val differentRuns = dataWithModel.filter[it.step == expectedStep]
 				//println(">" + differentRuns.size)
 				println('''«model»,«percentage»,«
-					differentRuns.getAverageData[choice]»,«
-					differentRuns.getAverageData[entry]»,«
-					differentRuns.getAverageData[exit]»,«
-					differentRuns.getAverageData[region]»,«
-					differentRuns.getAverageData[state]»,«
-					differentRuns.getAverageData[statechart]»,«
-					differentRuns.getAverageData[transition]»'''
-				)
-				
-				
+					differentRuns.allQuartile[choice]»,«
+					differentRuns.allQuartile[entry]»,«
+					differentRuns.allQuartile[exit]»,«
+					differentRuns.allQuartile[region]»,«
+					differentRuns.allQuartile[state]»,«
+					differentRuns.allQuartile[statechart]»,«
+					differentRuns.allQuartile[transition]»'''
+				)	
 				currentStep++
 			}
 		}
 	}
 	
 	//differentRuns.map[(choice+0.0)/size].reduce[p1, p2|p1+p2]/differentRuns.size
-	
+	def static allQuartile(Iterable<Line> differentRuns, Function1<Line,Integer> selector) {
+		'''«differentRuns.getPercentileData(selector,0.25)»,«differentRuns.getPercentileData(selector,0.5)»,«differentRuns.getPercentileData(selector,0.75)»'''
+	}
 	def static getAverageData(Iterable<Line> differentRuns, Function1<Line,Integer> selector) {
 		differentRuns.map[(selector.apply(it)+0.0)/size].reduce[p1, p2|p1+p2]/differentRuns.size
+	}
+	def static getPercentileData(Iterable<Line> differentRuns, Function1<Line,Integer> selector, double percentile) {
+		val data = differentRuns.map[(selector.apply(it)+0.0)/size]
+		return data.sort.get((percentile*(data.size-1)) as int)
 	}
 	
 	def static percetage2Step(int model, double percentage, Map<Integer, Integer> model2MaxStep) {
@@ -93,7 +101,7 @@ class PostProcessCSV {
 	int Transition
 	int Vertex
 	
-	public new(String line) {
+	new(String line) {
 		val cells = line.split(",")
 		model = Integer.parseInt(cells.get(0)) 
 		run = Integer.parseInt(cells.get(1))

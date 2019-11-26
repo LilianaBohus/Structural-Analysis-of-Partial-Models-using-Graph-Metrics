@@ -80,6 +80,7 @@ class ModelLoader {
 					abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
 					abstractionCounter++;
 				}
+				statistics.appendStatistics(modelNumber, seedNumber, abstractionCounter, partialmodel)
 				println("-- Model " + modelNumber + ", seed: " + seedNumber + ", total steps: " + abstractionCounter +
 					" --")
 			}
