@@ -7,22 +7,25 @@ import java.util.List
 import java.util.Map
 import org.eclipse.xtend.lib.annotations.Data
 import org.eclipse.xtext.xbase.lib.Functions.Function1
+import java.io.BufferedWriter
+import java.io.FileWriter
+import java.util.HashSet
+import java.util.HashMap
 
 class PostProcessCSV {
 	def static void main(String[] args) {
 		val res = loadFile("typeStatistics_AllSeed.csv")
-		println('''Read «res.size» lines of data''')
 		val modelIDs = res.map[model].toSet.toList.sort
-		val model2Step = modelToStep(modelIDs,res);
-		println('''steps sizes determined''')
-		percentagesOfTypes(res,modelIDs,model2Step)
-		
+		val model2Step = modelToStep(modelIDs, res);
+		//percentagesOfTypesByModel(res, modelIDs, model2Step)
+		percentagesOfTypesSummarized(res, modelIDs, model2Step)
+		println("done")
 	}
+	
 	
 	def static loadFile(String path) {
 		val BufferedReader reader = new BufferedReader(new FileReader(path))
-		println("Header:")
-		println(reader.readLine)
+		reader.readLine // header
 		val res = new LinkedList
 		var line = reader.readLine
 		while(line!==null) {
@@ -33,10 +36,13 @@ class PostProcessCSV {
 	}
 	
 	def static header(String name) {
-		'''low-«name», median-«name», high-«name»'''
+		'''low-«name»,median-«name»,high-«name»'''
 	}
-	def static percentagesOfTypes(LinkedList<Line> data, List<Integer> modelIDs, Map<Integer, Integer> model2MaxStep) {
-		println('''model,percentage,«header("Choice")»,«header("Entry")»,«header("Exit")»,«header("Region")»,«header("State")»,«header("Statechart")»,«header("Transition")»''')
+	
+	def static percentagesOfTypesByModel(LinkedList<Line> data, List<Integer> modelIDs, Map<Integer, Integer> model2MaxStep) {
+		val BufferedWriter writer = new BufferedWriter(new FileWriter("typeStatisticsByPercentageByModel.csv"))
+		writer.write('''model,percentage,«header("Choice")»,«header("Entry")»,«header("Exit")»,«header("Region")»,«header("State")»,«header("Statechart")»,«header("Transition")»''')
+		writer.newLine()
 		for(model : modelIDs) {
 			val dataWithModel = data.filter[it.model == model].toList
 			val int maxSteps = 100
@@ -46,8 +52,7 @@ class PostProcessCSV {
 				val expectedStep = percetage2Step(model,percentage,model2MaxStep) 
 				
 				val differentRuns = dataWithModel.filter[it.step == expectedStep]
-				//println(">" + differentRuns.size)
-				println('''«model»,«percentage»,«
+				writer.write('''«model»,«percentage»,«
 					differentRuns.allQuartile[choice]»,«
 					differentRuns.allQuartile[entry]»,«
 					differentRuns.allQuartile[exit]»,«
@@ -55,11 +60,67 @@ class PostProcessCSV {
 					differentRuns.allQuartile[state]»,«
 					differentRuns.allQuartile[statechart]»,«
 					differentRuns.allQuartile[transition]»'''
-				)	
+				)
+				writer.newLine()
+				writer.flush()	
 				currentStep++
 			}
 		}
 	}
+	
+	def static percentagesOfTypesSummarized(LinkedList<Line> data, List<Integer> modelIDs, Map<Integer, Integer> model2MaxStep){
+		val BufferedWriter writer = new BufferedWriter(new FileWriter("typeStatisticsByPercentageSummarized.csv"))
+		writer.write('''percentage,«header("Choice")»,«header("Entry")»,«header("Exit")»,«header("Region")»,«header("State")»,«header("Statechart")»,«header("Transition")»''')
+		writer.newLine
+		
+		println("Caching")
+		val cache = new HashMap<Pair<Integer,Integer>,List<Line>>
+		for(line:data) {
+			val key = line.model->line.step
+			val list = if(!cache.containsKey(key)) {
+				val l = new LinkedList
+				cache.put(key,l)
+				l
+			} else {
+				cache.get(key)
+			}
+			list.add(line)
+		}
+		println("caching finished")
+		
+		val int maxSteps = 100
+		var int currentStep = 0
+		while(currentStep <= maxSteps) {
+			println('''«currentStep»%''')
+			val percentage = (currentStep+0.0)/maxSteps
+			
+			val differentRunsSeparately = new LinkedList
+			for(model : modelIDs) {
+				val expectedStep = percetage2Step(model,percentage,model2MaxStep)
+				val differentRunForModel = cache.get(model->expectedStep)
+				//data.filter[it.model == model && it.step == expectedStep].toList
+				//println('''> «differentRunForModel.size»''')
+				differentRunsSeparately.add(differentRunForModel)
+			}
+			val differentRuns = differentRunsSeparately.flatten
+			println('''>«differentRuns.size»''')
+			writer.write('''«percentage»,«
+				differentRuns.allQuartile[choice]»,«
+				differentRuns.allQuartile[entry]»,«
+				differentRuns.allQuartile[exit]»,«
+				differentRuns.allQuartile[region]»,«
+				differentRuns.allQuartile[state]»,«
+				differentRuns.allQuartile[statechart]»,«
+				differentRuns.allQuartile[transition]»'''
+			)
+			writer.newLine()
+			writer.flush()		
+			currentStep++
+		}
+//		}
+	}
+	
+
 	
 	//differentRuns.map[(choice+0.0)/size].reduce[p1, p2|p1+p2]/differentRuns.size
 	def static allQuartile(Iterable<Line> differentRuns, Function1<Line,Integer> selector) {
