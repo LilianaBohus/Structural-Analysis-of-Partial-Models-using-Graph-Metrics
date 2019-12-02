@@ -51,7 +51,7 @@ class ModelLoader {
 		YakindummPackage.eINSTANCE.eClass
 		Resource.Factory.Registry.INSTANCE.extensionToFactoryMap.put("xmi", new XMIResourceFactoryImpl)
 
-		val typeStatistics = new TypeStatisticsService
+		//val typeStatistics = new TypeStatisticsService
 		val relationStatistics = new RelationStats
 
 		val loader = new ModelLoader

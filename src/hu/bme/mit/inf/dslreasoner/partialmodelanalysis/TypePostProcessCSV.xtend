@@ -12,7 +12,7 @@ import java.io.FileWriter
 import java.util.HashSet
 import java.util.HashMap
 
-class PostProcessCSV {
+class TypePostProcessCSV {
 	def static void main(String[] args) {
 		val res = loadFile("typeStatistics_AllSeed.csv")
 		val modelIDs = res.map[model].toSet.toList.sort

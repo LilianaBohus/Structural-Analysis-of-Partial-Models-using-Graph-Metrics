@@ -33,7 +33,7 @@ class RelationPostProcessCSV {
 	}
 	
 	def static percentagesOfTypesSummarized(LinkedList<RelLine> data, List<Integer> modelIDs, Map<Integer, Integer> model2MaxStep){
-		val BufferedWriter writer = new BufferedWriter(new FileWriter("typeStatisticsByPercentageSummarized.csv"))
+		val BufferedWriter writer = new BufferedWriter(new FileWriter("relationStatisticsByPercentageSummarized.csv"))
 		writer.write('''percentage,«FOR i:0..15 SEPARATOR ","»low-Degree=«i»,medium-Degree=«i»,high-Degree=«i»«ENDFOR»''')
 		writer.newLine
 		
