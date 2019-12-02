@@ -51,7 +51,8 @@ class ModelLoader {
 		YakindummPackage.eINSTANCE.eClass
 		Resource.Factory.Registry.INSTANCE.extensionToFactoryMap.put("xmi", new XMIResourceFactoryImpl)
 
-		val statistics = new StatisticsService
+		val typeStatistics = new TypeStatisticsService
+		val relationStatistics = new RelationStats
 
 		val loader = new ModelLoader
 		val MODEL_INSTANCES_URI = "instancemodels/ICSE2020-InstanceModels/yakindumm/human/humanInput100/run1/"
@@ -67,20 +68,24 @@ class ModelLoader {
 				val partialmodel = loader.model2PartialModel(model)
 
 				if (firstRun) {
-					statistics.createSortedLabelList(partialmodel)
+					//typeStatistics.createSortedLabelList(partialmodel)
+					relationStatistics.createLabels()
 					firstRun = false;
 				}
 
 				var abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
 				var abstractionCounter = 0;
 				while (!abstractionoperations.isEmpty) {
-					statistics.appendStatistics(modelNumber, seedNumber, abstractionCounter, partialmodel)
+					//typeStatistics.appendStatistics(modelNumber, seedNumber, abstractionCounter, partialmodel)
+					
+					relationStatistics.createStatistics(modelNumber, seedNumber, abstractionCounter, partialmodel);
 					val randomNumber = random.nextInt(abstractionoperations.size)
 					abstractionoperations.get(randomNumber).execute
 					abstractionoperations = loader.collectAbstractionOperations(partialmodel, loader)
 					abstractionCounter++;
 				}
-				statistics.appendStatistics(modelNumber, seedNumber, abstractionCounter, partialmodel)
+				//typeStatistics.appendStatistics(modelNumber, seedNumber, abstractionCounter, partialmodel)
+				relationStatistics.createStatistics(modelNumber, seedNumber, abstractionCounter, partialmodel);
 				println("-- Model " + modelNumber + ", seed: " + seedNumber + ", total steps: " + abstractionCounter +
 					" --")
 			}

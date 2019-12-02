@@ -15,7 +15,7 @@ import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.par
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialInterpretation;
 import hu.bme.mit.inf.dslreasoner.viatrasolver.partialinterpretationlanguage.partialinterpretation.PartialTypeInterpratation;
 
-public class StatisticsService {
+public class TypeStatisticsService {
 	private static final String FILE_NAME = "typeStatistics_AllSeed";
 	private static final String SEPARATOR = ",";
 	private List<String> labels;
@@ -24,7 +24,7 @@ public class StatisticsService {
 	private int run;
 	private int step;
 
-	public StatisticsService() throws IOException {
+	public TypeStatisticsService() throws IOException {
 		System.out.println("-- File initialized. --");
 	}
 
