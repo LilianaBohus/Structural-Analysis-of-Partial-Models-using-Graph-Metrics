@@ -61,7 +61,7 @@ class RelationStats {
 		writer.write("Run" + SEPARATOR)
 		writer.write("Step" + SEPARATOR)
 		for (i : 0 .. MAX_OUTGOING) {
-			writer.write(i + SEPARATOR)
+			writer.write("Degree = " + i + SEPARATOR)
 		}
 		writer.newLine
 		writer.flush
