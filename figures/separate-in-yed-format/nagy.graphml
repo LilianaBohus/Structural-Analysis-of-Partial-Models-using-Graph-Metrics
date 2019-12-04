@@ -18,7 +18,7 @@
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="52.35903999999999" width="80.39999999999998" x="215.45764443359167" y="284.5244693333316"/>
-          <y:Fill hasColor="false" transparent="false"/>
+          <y:Fill color="#C4A69D" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="node_width" borderDistance="0.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" underlinedText="true" verticalTextPosition="bottom" visible="true" width="80.39999999999998" x="0.0" xml:space="preserve" y="0.0">r</y:NodeLabel>
           <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="7.333984375" x="36.53300781249999" xml:space="preserve" y="4.0">
@@ -40,7 +40,7 @@
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="52.35903999999999" width="80.39999999999998" x="363.6101925781222" y="124.41957546666526"/>
-          <y:Fill hasColor="false" transparent="false"/>
+          <y:Fill color="#FADF63" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="node_width" borderDistance="0.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" underlinedText="true" verticalTextPosition="bottom" visible="true" width="80.39999999999998" x="0.0" xml:space="preserve" y="0.0">e</y:NodeLabel>
           <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="7.333984375" x="36.53300781249999" xml:space="preserve" y="4.0">
@@ -63,7 +63,7 @@ Vertex=1<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:M
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="52.35903999999999" width="80.39999999999998" x="363.6101925781222" y="444.6293631999979"/>
-          <y:Fill hasColor="false" transparent="false"/>
+          <y:Fill color="#EA526F" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="node_width" borderDistance="0.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" underlinedText="true" verticalTextPosition="bottom" visible="true" width="80.39999999999998" x="0.0" xml:space="preserve" y="0.0">s</y:NodeLabel>
           <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="7.333984375" x="36.53300781249999" xml:space="preserve" y="4.0">
@@ -87,7 +87,7 @@ Vertex=1
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="52.35903999999999" width="80.39999999999998" x="363.6101925781222" y="284.5244693333316"/>
-          <y:Fill hasColor="false" transparent="false"/>
+          <y:Fill color="#20A39E" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="node_width" borderDistance="0.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" underlinedText="true" verticalTextPosition="bottom" visible="true" width="80.39999999999998" x="0.0" xml:space="preserve" y="0.0">t</y:NodeLabel>
           <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="7.333984375" x="36.53300781249999" xml:space="preserve" y="4.0">
@@ -109,7 +109,7 @@ Vertex=1
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="52.35903999999999" width="80.39999999999998" x="44.30509628906111" y="284.5244693333316"/>
-          <y:Fill hasColor="false" transparent="false"/>
+          <y:Fill color="#E7E6F7" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="node_width" borderDistance="0.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" underlinedText="true" verticalTextPosition="bottom" visible="true" width="80.39999999999998" x="0.0" xml:space="preserve" y="0.0">sc</y:NodeLabel>
           <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="7.333984375" x="36.53300781249999" xml:space="preserve" y="4.0">
@@ -131,7 +131,7 @@ Vertex=1
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="52.35903999999999" width="80.39999999999998" x="363.6101925781222" y="711.1751509333308"/>
-          <y:Fill hasColor="false" transparent="false"/>
+          <y:Fill color="#EA526F" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="node_width" borderDistance="0.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" underlinedText="true" verticalTextPosition="bottom" visible="true" width="80.39999999999998" x="0.0" xml:space="preserve" y="0.0">s</y:NodeLabel>
           <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="7.333984375" x="36.53300781249999" xml:space="preserve" y="4.0">
@@ -155,7 +155,7 @@ Vertex=1
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="52.35903999999999" width="80.39999999999998" x="283.21019257812225" y="583.7880831999979"/>
-          <y:Fill hasColor="false" transparent="false"/>
+          <y:Fill color="#20A39E" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="node_width" borderDistance="0.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" underlinedText="true" verticalTextPosition="bottom" visible="true" width="80.39999999999998" x="0.0" xml:space="preserve" y="0.0">t</y:NodeLabel>
           <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="7.333984375" x="36.53300781249999" xml:space="preserve" y="4.0">
@@ -177,7 +177,7 @@ Vertex=1
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="52.35903999999999" width="80.39999999999998" x="444.0101925781222" y="583.7880831999979"/>
-          <y:Fill hasColor="false" transparent="false"/>
+          <y:Fill color="#20A39E" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="node_width" borderDistance="0.0" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" underlinedText="true" verticalTextPosition="bottom" visible="true" width="80.39999999999998" x="0.0" xml:space="preserve" y="0.0">t</y:NodeLabel>
           <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="7.333984375" x="36.53300781249999" xml:space="preserve" y="4.0">
